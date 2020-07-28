@@ -20,5 +20,5 @@ func ExampleClient_GetAlertList() {
 		fmt.Println(err)
 	}
 
-	fmt.Println(alertList)
+	fmt.Println(alertList.Title)
 }
