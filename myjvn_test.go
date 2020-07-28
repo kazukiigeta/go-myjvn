@@ -7,12 +7,14 @@ package myjvn
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"reflect"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown func()) {
@@ -31,27 +33,62 @@ func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown fun
 }
 
 func TestDo(t *testing.T) {
-	client, mux, _, teardown := setup()
-	defer teardown()
-
-	type foo struct {
-		A string `json:"A"`
-		B string `json:"B"`
+	type sampleStruct struct {
+		A string `json:"a"`
+		B string `json:"b"`
 	}
 
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, `{"A": "a", "B":"b"}`)
-	})
-
-	req, _ := client.newRequest("GET", ".")
-	body := new(foo)
-	if _, err := client.do(context.Background(), req, body); err != nil {
-		t.Errorf("do returned error: %v", err)
+	type testCase struct {
+		description string
+		format      *string
+		structured  *sampleStruct
+		serialized  string
+		err         error
 	}
 
-	want := &foo{"a", "b"}
-	if !reflect.DeepEqual(body, want) {
-		t.Errorf("Response body = %v, want %v", body, want)
+	var testcases = []testCase{
+		{
+			description: "Not Passing a struct without specifying format",
+			format:      nil,
+			structured:  nil,
+			err:         errors.New("v must not be nil"),
+		},
+		{
+			description: "Passing a struct with specifying JSON format",
+			format:      &strJSON,
+			structured: &sampleStruct{
+				A: "a",
+				B: "b",
+			},
+			serialized: `{"A":"a", "B":"b"}`,
+			err:        nil,
+		},
+	}
+
+	for _, c := range testcases {
+		t.Run(c.description, func(t *testing.T) {
+			client, mux, _, teardown := setup()
+			defer teardown()
+
+			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+				fmt.Fprint(w, c.serialized)
+			})
+
+			req, _ := client.newRequest("GET", ".")
+
+			err := client.do(context.Background(), req, c.format, c.structured)
+			if c.err == nil && err != c.err {
+				t.Fatalf("do returns unexpected error: %s", err)
+			}
+			if err != nil && err.Error() != c.err.Error() {
+				t.Fatalf("do returns unexpected error: %s", err)
+			}
+
+			want, got := c.structured, c.structured
+			if diff := cmp.Diff(want, got); diff != "" {
+				t.Errorf("differs: (-want +got)\n%s", diff)
+			}
+		})
 	}
 }
 
@@ -66,7 +103,7 @@ func TestDo_noContent(t *testing.T) {
 	var body json.RawMessage
 
 	req, _ := client.newRequest("GET", ".")
-	_, err := client.do(context.Background(), req, &body)
+	err := client.do(context.Background(), req, nil, &body)
 	if err != nil {
 		t.Fatalf("do returned unexpected error: %v", err)
 	}
@@ -93,6 +130,16 @@ func TestNewRequest(t *testing.T) {
 
 	if got, want := req.URL.String(), outURL; got != want {
 		t.Errorf("newRequest(%q) URL is %v, want %v", inURL, got, want)
+	}
+}
+
+func TestNewRequest_InvalidPath(t *testing.T) {
+	c := NewClient(nil)
+
+	inURL := "%invalidPath%"
+	_, err := c.newRequest("GET", inURL)
+	if err == nil {
+		t.Fatalf("newRequest must return an error of invalid URL escape")
 	}
 }
 

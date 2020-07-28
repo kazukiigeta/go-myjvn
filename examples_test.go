@@ -13,11 +13,12 @@ import (
 
 func ExampleClient_GetAlertList() {
 	c := myjvn.NewClient(nil)
-	p := myjvn.NewParamsGetAlertList(nil, nil, nil, nil, nil)
-	alertList, _, err := c.GetAlertList(context.Background(), p)
+	params := &myjvn.Parameter{}
+	p := myjvn.NewParamsGetAlertList(params)
+	alertList, err := c.GetAlertList(context.Background(), p)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	fmt.Println(alertList.Feed)
+	fmt.Println(alertList)
 }

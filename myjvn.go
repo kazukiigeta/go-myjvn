@@ -7,6 +7,7 @@ package myjvn
 import (
 	"context"
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"io"
 	"net/http"
@@ -62,28 +63,46 @@ func (c *Client) newRequest(method, path string) (*http.Request, error) {
 	return req, nil
 }
 
-func (c *Client) do(ctx context.Context, req *http.Request, v interface{}) (*http.Response, error) {
+var strJSON string = "json"
+var strXML string = "xml"
+
+// do decodes HTTP response to store the data into the struct given as v.
+func (c *Client) do(ctx context.Context, req *http.Request, format *string, v interface{}) error {
+	if v == nil || reflect.ValueOf(v).IsNil() {
+		return fmt.Errorf("v must not be nil")
+	}
+
 	req = req.WithContext(ctx)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer resp.Body.Close()
 
-	if v != nil {
-		decErr := json.NewDecoder(resp.Body).Decode(v)
-		if decErr == io.EOF {
-			decErr = nil
-		}
-		if decErr != nil {
-			err = decErr
-		}
+	var decoder interface {
+		Decode(interface{}) error
+	}
+	if format == nil || *format == strXML {
+		decoder = xml.NewDecoder(resp.Body)
+	} else if *format == strJSON {
+		decoder = json.NewDecoder(resp.Body)
+	} else {
+		return fmt.Errorf(`format must be either nil, "xml" or "json"`)
 	}
 
-	return resp, err
+	decErr := decoder.Decode(v)
+	if decErr == io.EOF {
+		decErr = nil
+	}
+	if decErr != nil {
+		err = decErr
+	}
+
+	return err
 }
 
+// addOptions returnes a string added query strings to URL path given as s.
 func addOptions(s string, opts interface{}) (string, error) {
 	v := reflect.ValueOf(opts)
 	if v.Kind() == reflect.Ptr && v.IsNil() {
