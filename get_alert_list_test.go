@@ -27,7 +27,7 @@ func TestNewParamsGetAlertList(t *testing.T) {
 		MaxCountItem:       maxCountItem,
 		DatePublished:      datePublished,
 		DateFirstPublished: dateFirstPublished,
-		CpeName:            cpeName,
+		CPEName:            cpeName,
 		Format:             format,
 	}
 
@@ -40,7 +40,7 @@ func TestNewParamsGetAlertList(t *testing.T) {
 		MaxCountItem:       maxCountItem,
 		DatePublished:      datePublished,
 		DateFirstPublished: dateFirstPublished,
-		CpeName:            cpeName,
+		CPEName:            cpeName,
 		Format:             format,
 	}
 	if diff := cmp.Diff(got, want); diff != "" {

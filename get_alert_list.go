@@ -53,20 +53,6 @@ type Entry struct {
 	Category  Category `xml:"category"`
 }
 
-// Status stores the data from API response.
-type Status struct {
-	Version     string `xml:"version,attr"`
-	Method      string `xml:"method,attr"`
-	RetCd       uint   `xml:"retCd,attr"`
-	RetMax      string `xml:"retMax,attr"`
-	ErrCd       string `xml:"errCd,attr"`
-	ErrMsg      string `xml:"errMsg,attr"`
-	TotalRes    string `xml:"totalRes,attr"`
-	TotalResRet string `xml:"totalResRet,attr"`
-	FirstRes    string `xml:"firstRes,attr"`
-	Feed        string `xml:"feed,attr"`
-}
-
 // AlertList stores the data from API response.
 type AlertList struct {
 	XMLName     xml.Name    `xml:"feed"`
@@ -80,37 +66,6 @@ type AlertList struct {
 	Status      Status      `xml:"Status"`
 }
 
-// Parameter represents all the parameters of API except method and feed.
-type Parameter struct {
-	StartItem               uint
-	MaxCountItem            uint8
-	DatePublished           uint16
-	DateFirstPublished      uint16
-	CpeName                 string
-	Format                  string
-	Keyword                 string
-	Language                string
-	VendorID                string
-	ProductID               string
-	Severity                string
-	Vector                  string
-	RangeDatePublic         string
-	RangeDatePublished      string
-	RangeDateFirstPublished string
-	DatePublicStartY        uint16
-	DatePublicStartM        uint8
-	DatePublicStartD        uint8
-	DatePublicEndY          uint16
-	DatePublicEndM          uint8
-	DatePublicEndD          uint8
-	DateFirstPublicStartY   uint16
-	DateFirstPublicStartM   uint8
-	DateFirstPublicStartD   uint8
-	DateFirstPublicEndY     uint16
-	DateFirstPublicEndM     uint8
-	DateFirstPublicEndD     uint8
-}
-
 // ParamsGetAlertList specifies the parameters of a HTTP request for GetAlertList.
 type ParamsGetAlertList struct {
 	Method             string `url:"method"`
@@ -119,7 +74,7 @@ type ParamsGetAlertList struct {
 	MaxCountItem       uint8  `url:"maxCountItem,omitempty"`
 	DatePublished      uint16 `url:"datePublished,omitempty"`
 	DateFirstPublished uint16 `url:"dateFirstPublished,omitempty"`
-	CpeName            string `url:"cpeName,omitempty"`
+	CPEName            string `url:"cpeName,omitempty"`
 	Format             string `url:"ft,omitempty"`
 }
 
@@ -138,7 +93,7 @@ func NewParamsGetAlertList(params *Parameter) *ParamsGetAlertList {
 	p.MaxCountItem = params.MaxCountItem
 	p.DatePublished = params.DatePublished
 	p.DateFirstPublished = params.DateFirstPublished
-	p.CpeName = params.CpeName
+	p.CPEName = params.CPEName
 	p.Format = params.Format
 
 	return p
