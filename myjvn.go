@@ -130,7 +130,9 @@ func (c *Client) do(ctx context.Context, req *http.Request, format *string, v in
 		Decode(interface{}) error
 	}
 	if format == nil || *format == strXML {
-		decoder = xml.NewDecoder(resp.Body)
+		d := xml.NewDecoder(resp.Body)
+		d.Strict = false
+		decoder = d
 	} else if *format == strJSON {
 		decoder = json.NewDecoder(resp.Body)
 	} else {

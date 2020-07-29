@@ -20,11 +20,19 @@ type ParamsGetVendorList struct {
 	Keyword      string `url:"keyword,omitempty"`
 }
 
+// Product stores the data from API response.
+type Product struct {
+	PName string `xml:"pname,attr"`
+	CPE   string `xml:"cpe,attr"`
+	PID   string `xml:"pid,attr"`
+}
+
 // Vendor stores the data from API response.
 type Vendor struct {
-	VName string `xml:"vname,attr"`
-	CPE   string `xml:"cpe,attr"`
-	VID   string `xml:"vid,attr"`
+	VName   string  `xml:"vname,attr"`
+	CPE     string  `xml:"cpe,attr"`
+	VID     string  `xml:"vid,attr"`
+	Product Product `xml:"Product"`
 }
 
 // VendorInfo stores the data from API response.
