@@ -27,13 +27,26 @@ if err != nil {
 }
 fmt.Println(alertList.Title)
 ```
+## Trying examples
+Working examples are available in [examples/ directory](./examples).
+You can try them just to execute the following commands.
+
+```sh
+# Example of getAlertList
+cd examples/get-alert-list
+go run main.go
+
+# Example of getVendorList
+cd examples/get-alert-list
+go run main.go
+```
 
 
 ## Implemented API
 | Version | Method              | Supported | Notes       |
 |---------|---------------------|-----------|-------------|
 | HND     | getAlertList        | Yes       |             |
-|         | getVendorList       |           |             |
+|         | getVendorList       | Yes       |             |
 |         | getProductList      |           |             |
 |         | getVulnOverviewList |           |             |
 |         | getVulnDetailInfo   |           |             |
