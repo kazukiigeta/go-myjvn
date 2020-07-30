@@ -37,7 +37,7 @@ cd examples/get-alert-list
 go run main.go
 
 # Example of getVendorList
-cd examples/get-alert-list
+cd examples/get-vendor-list
 go run main.go
 ```
 
