@@ -67,20 +67,24 @@ func TestGetProductList(t *testing.T) {
 					VName: "#1 deals and maps app",
 					CPE:   "cpe:/:pointinside",
 					VID:   "10133",
-					Product: Product{
-						PName: "Point Inside Shopping & Travel",
-						CPE:   "cpe:/a:pointinside:point_inside_shopping_%26_travel",
-						PID:   "21248",
+					Products: []*Product{
+						&Product{
+							PName: "Point Inside Shopping & Travel",
+							CPE:   "cpe:/a:pointinside:point_inside_shopping_%26_travel",
+							PID:   "21248",
+						},
 					},
 				},
 				&Vendor{
 					VName: "#sysPass",
 					CPE:   "cpe:/:syspass",
 					VID:   "12776",
-					Product: Product{
-						PName: "#sysPass",
-						CPE:   "cpe:/a:syspass:syspass",
-						PID:   "29385",
+					Products: []*Product{
+						&Product{
+							PName: "#sysPass",
+							CPE:   "cpe:/a:syspass:syspass",
+							PID:   "29385",
+						},
 					},
 				},
 			},

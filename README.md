@@ -47,7 +47,7 @@ go run main.go
 |---------|---------------------|-----------|-------------|
 | HND     | getAlertList        | Yes       |             |
 |         | getVendorList       | Yes       |             |
-|         | getProductList      |           |             |
+|         | getProductList      | Yes       |             |
 |         | getVulnOverviewList |           |             |
 |         | getVulnDetailInfo   |           |             |
 |         | getStatistics       |           |             |

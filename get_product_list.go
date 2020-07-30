@@ -17,8 +17,8 @@ type ParamsGetProductList struct {
 	StartItem    uint   `url:"startItem,omitempty"`
 	MaxCountItem uint8  `url:"maxCountItem,omitempty"`
 	CPEName      string `url:"cpeName,omitempty"`
-	VendorID     string `url:"vendorid,omitempty"`
-	ProductID    string `url:"productid,omitempty"`
+	VendorID     string `url:"vendorId,omitempty"`
+	ProductID    string `url:"productId,omitempty"`
 	Keyword      string `url:"keyword,omitempty"`
 	Language     string `url:"lang,omitempty"`
 }

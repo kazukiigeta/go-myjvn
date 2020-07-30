@@ -17,7 +17,10 @@ type ParamsGetVendorList struct {
 	StartItem    uint   `url:"startItem,omitempty"`
 	MaxCountItem uint8  `url:"maxCountItem,omitempty"`
 	CPEName      string `url:"cpeName,omitempty"`
+	VendorID     string `url:"vendorId,omitempty"`
+	ProductID    string `url:"productId,omitempty"`
 	Keyword      string `url:"keyword,omitempty"`
+	Language     string `url:"lang,omitempty"`
 }
 
 // Product stores the data from API response.
@@ -29,10 +32,10 @@ type Product struct {
 
 // Vendor stores the data from API response.
 type Vendor struct {
-	VName   string  `xml:"vname,attr"`
-	CPE     string  `xml:"cpe,attr"`
-	VID     string  `xml:"vid,attr"`
-	Product Product `xml:"Product"`
+	VName    string     `xml:"vname,attr"`
+	CPE      string     `xml:"cpe,attr"`
+	VID      string     `xml:"vid,attr"`
+	Products []*Product `xml:"Product"`
 }
 
 // VendorInfo stores the data from API response.
@@ -62,6 +65,7 @@ func NewParamsGetVendorList(params *Parameter) *ParamsGetVendorList {
 	p.MaxCountItem = params.MaxCountItem
 	p.CPEName = params.CPEName
 	p.Keyword = url.QueryEscape(params.Keyword)
+	p.Language = params.Language
 
 	return p
 }
