@@ -36,3 +36,17 @@ func ExampleClient_GetVendorList() {
 		fmt.Println(*v)
 	}
 }
+
+func ExampleClient_GetProductList() {
+	c := myjvn.NewClient(nil)
+	params := &myjvn.Parameter{}
+	p := myjvn.NewParamsGetProductList(params)
+	productList, err := c.GetProductList(context.Background(), p)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for _, product := range productList.VendorInfo.Vendors[100].Products {
+		fmt.Println(*product)
+	}
+}
