@@ -22,3 +22,17 @@ func ExampleClient_GetAlertList() {
 
 	fmt.Println(alertList.Title)
 }
+
+func ExampleClient_GetVendorList() {
+	c := myjvn.NewClient(nil)
+	params := &myjvn.Parameter{}
+	p := myjvn.NewParamsGetVendorList(params)
+	vendorList, err := c.GetVendorList(context.Background(), p)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for _, v := range vendorList.VendorInfo.Vendors {
+		fmt.Println(*v)
+	}
+}
