@@ -20,33 +20,33 @@ import (
 
 // Parameter represents all the parameters of API except method and feed.
 type Parameter struct {
-	StartItem               uint
-	MaxCountItem            uint8
-	DatePublished           uint16
-	DateFirstPublished      uint16
-	CPEName                 string
-	Format                  string
-	Keyword                 string
-	Language                string
-	VendorID                string
-	ProductID               string
-	Severity                string
-	Vector                  string
-	RangeDatePublic         string
-	RangeDatePublished      string
-	RangeDateFirstPublished string
-	DatePublicStartY        uint16
-	DatePublicStartM        uint8
-	DatePublicStartD        uint8
-	DatePublicEndY          uint16
-	DatePublicEndM          uint8
-	DatePublicEndD          uint8
-	DateFirstPublicStartY   uint16
-	DateFirstPublicStartM   uint8
-	DateFirstPublicStartD   uint8
-	DateFirstPublicEndY     uint16
-	DateFirstPublicEndM     uint8
-	DateFirstPublicEndD     uint8
+	StartItem                uint
+	MaxCountItem             uint8
+	DatePublished            uint16
+	DateFirstPublished       uint16
+	CPEName                  string
+	Format                   string
+	Keyword                  string
+	Language                 string
+	VendorID                 string
+	ProductID                string
+	Severity                 string
+	Vector                   string
+	RangeDatePublic          string
+	RangeDatePublished       string
+	RangeDateFirstPublished  string
+	DatePublicStartY         uint16
+	DatePublicStartM         uint8
+	DatePublicStartD         uint8
+	DatePublicEndY           uint16
+	DatePublicEndM           uint8
+	DatePublicEndD           uint8
+	DateFirstPublishedStartY uint16
+	DateFirstPublishedStartM uint8
+	DateFirstPublishedStartD uint8
+	DateFirstPublishedEndY   uint16
+	DateFirstPublishedEndM   uint8
+	DateFirstPublishedEndD   uint8
 }
 
 // Status stores the data from API response.

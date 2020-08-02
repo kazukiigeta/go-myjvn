@@ -37,7 +37,7 @@ cd examples/get-alert-list
 go run main.go
 
 # Example of getVendorList
-cd examples/get-alert-list
+cd examples/get-vendor-list
 go run main.go
 ```
 
@@ -48,7 +48,7 @@ go run main.go
 | HND     | getAlertList        | Yes       |             |
 |         | getVendorList       | Yes       |             |
 |         | getProductList      | Yes       |             |
-|         | getVulnOverviewList |           |             |
+|         | getVulnOverviewList | Yes       |             |
 |         | getVulnDetailInfo   |           |             |
 |         | getStatistics       |           |             |
 | ITM     | getStatistics       |           |             |
