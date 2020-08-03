@@ -4,9 +4,9 @@ go-myjvn is a Go client library for accessing the [MyJVN API](https://jvndb.jvn.
 MyJVN API is provided by [IPA](https://www.ipa.go.jp/index-e.html) to offer to create calls to get the data of vulnerabilities in Japanese products. 
 
 [![Golang CI](https://github.com/kazukiigeta/go-myjvn/workflows/Golang%20CI/badge.svg)](https://github.com/kazukiigeta/go-myjvn/actions?query=workflow%3A%22Golang+CI%22)
-[![GoDoc](https://godoc.org/github.com/kazukiigeta/go-myjvn?status.svg)](https://godoc.org/github.com/kazukiigeta/go-myjvn)
+[![GoDoc](https://pkg.go.dev/badge/github.com/kazukiigeta/go-myjvn?status.svg)](https://pkg.go.dev/github.com/kazukiigeta/go-myjvn)
 [![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/kazukiigeta/go-myjvn/blob/master/LICENSE)
-[![Maintainability](https://api.codeclimate.com/v1/badges/4ad5c3ade8eb39cec428/maintainability)](https://codeclimate.com/github/kazukiigeta/go-myjvn/maintainability)
+[![Go Report Card](https://goreportcard.com/badge/github.com/kazukiigeta/go-myjvn)](https://goreportcard.com/report/github.com/kazukiigeta/go-myjvn)
 
 ## Usage
 ```golang
