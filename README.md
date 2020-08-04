@@ -49,7 +49,7 @@ go run main.go
 |         | getVendorList       | Yes       |             |
 |         | getProductList      | Yes       |             |
 |         | getVulnOverviewList | Yes       |             |
-|         | getVulnDetailInfo   |           |             |
+|         | getVulnDetailInfo   | Yes       |             |
 |         | getStatistics       |           |             |
 | ITM     | getStatistics       |           |             |
 | 3.1     | getOvalList         |           | not planned |
