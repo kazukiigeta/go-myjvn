@@ -51,6 +51,18 @@ func ExampleClient_GetProductList() {
 	}
 }
 
+func ExampleClient_GetVulnOverviewList() {
+	c := myjvn.NewClient(nil)
+	params := &myjvn.Parameter{}
+	p := myjvn.NewParamsGetVulnOverviewList(params)
+	vulnOverviewList, err := c.GetVulnOverviewList(context.Background(), p)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(vulnOverviewList.Item[0].Title)
+}
+
 func ExampleClient_GetVulnDetailInfo() {
 	c := myjvn.NewClient(nil)
 	params := &myjvn.Parameter{
