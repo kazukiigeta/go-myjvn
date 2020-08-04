@@ -30,6 +30,7 @@ type Parameter struct {
 	Language                 string
 	VendorID                 string
 	ProductID                string
+	VulnID                   string
 	Severity                 string
 	Vector                   string
 	RangeDatePublic          string
@@ -62,6 +63,7 @@ type Status struct {
 	TotalResRet string `xml:"totalResRet,attr"`
 	FirstRes    string `xml:"firstRes,attr"`
 	Feed        string `xml:"feed,attr"`
+	VulnID      string `xml:"vulnId,attr"`
 }
 
 // Default settings of REST API

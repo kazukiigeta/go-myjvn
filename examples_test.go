@@ -50,3 +50,29 @@ func ExampleClient_GetProductList() {
 		fmt.Println(*product)
 	}
 }
+
+func ExampleClient_GetVulnOverviewList() {
+	c := myjvn.NewClient(nil)
+	params := &myjvn.Parameter{}
+	p := myjvn.NewParamsGetVulnOverviewList(params)
+	vulnOverviewList, err := c.GetVulnOverviewList(context.Background(), p)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(vulnOverviewList.Item[0].Title)
+}
+
+func ExampleClient_GetVulnDetailInfo() {
+	c := myjvn.NewClient(nil)
+	params := &myjvn.Parameter{
+		VulnID: "JVNDB-2020-006469",
+	}
+	p := myjvn.NewParamsGetVulnDetailInfo(params)
+	vulnDetailInfo, err := c.GetVulnDetailInfo(context.Background(), p)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(vulnDetailInfo.VulInfo.VulInfoID)
+}
