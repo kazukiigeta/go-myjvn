@@ -76,3 +76,19 @@ func ExampleClient_GetVulnDetailInfo() {
 
 	fmt.Println(vulnDetailInfo.VulInfo.VulInfoID)
 }
+
+func ExampleClient_GetStatisticsHND() {
+	c := myjvn.NewClient(nil)
+	params := &myjvn.Parameter{
+		Theme:            "SumCvss",
+		CWEID:            "CEW-20",
+		DatePublicStartY: 2015,
+	}
+	p := myjvn.NewParamsGetStatisticsHND(params)
+	statisticsHND, err := c.GetStatisticsHND(context.Background(), p)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(statisticsHND.SumCVSS.Title)
+}

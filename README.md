@@ -50,7 +50,7 @@ go run main.go
 |         | getProductList      | Yes       |             |
 |         | getVulnOverviewList | Yes       |             |
 |         | getVulnDetailInfo   | Yes       |             |
-|         | getStatistics       |           |             |
+|         | getStatistics       | Yes       |             |
 | ITM     | getStatistics       |           |             |
 | 3.1     | getOvalList         |           | not planned |
 |         | getOvalData         |           | not planned |
