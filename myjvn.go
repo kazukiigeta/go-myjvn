@@ -48,22 +48,30 @@ type Parameter struct {
 	DateFirstPublishedEndY   uint16
 	DateFirstPublishedEndM   uint8
 	DateFirstPublishedEndD   uint8
+	Theme                    string
+	DataType                 string
+	CWEID                    string
+	PID                      uint
 }
 
 // Status stores the data from API response.
 type Status struct {
-	Version     string `xml:"version,attr"`
-	Method      string `xml:"method,attr"`
-	Language    string `xml:"lang,attr"`
-	RetCd       uint   `xml:"retCd,attr"`
-	RetMax      string `xml:"retMax,attr"`
-	ErrCd       string `xml:"errCd,attr"`
-	ErrMsg      string `xml:"errMsg,attr"`
-	TotalRes    string `xml:"totalRes,attr"`
-	TotalResRet string `xml:"totalResRet,attr"`
-	FirstRes    string `xml:"firstRes,attr"`
-	Feed        string `xml:"feed,attr"`
-	VulnID      string `xml:"vulnId,attr"`
+	Version          string `xml:"version,attr"`
+	Method           string `xml:"method,attr"`
+	Language         string `xml:"lang,attr"`
+	RetCd            uint   `xml:"retCd,attr"`
+	RetMax           string `xml:"retMax,attr"`
+	RetMaxCnt        string `xml:"retMaxCnt,attr"`
+	ErrCd            string `xml:"errCd,attr"`
+	ErrMsg           string `xml:"errMsg,attr"`
+	TotalRes         string `xml:"totalRes,attr"`
+	TotalResRet      string `xml:"totalResRet,attr"`
+	FirstRes         string `xml:"firstRes,attr"`
+	Feed             string `xml:"feed,attr"`
+	VulnID           string `xml:"vulnId,attr"`
+	Theme            string `xml:"theme,attr"`
+	CWEID            string `xml:"cweId,attr"`
+	DatePublicStartY uint16 `xml:"datePublicStartY,attr"`
 }
 
 // Default settings of REST API
