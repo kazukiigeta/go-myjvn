@@ -51,7 +51,7 @@ go run main.go
 |         | getVulnOverviewList | Yes       |             |
 |         | getVulnDetailInfo   | Yes       |             |
 |         | getStatistics       | Yes       |             |
-| ITM     | getStatistics       |           |             |
+| ITM     | getStatistics       | Yes       |             |
 | 3.1     | getOvalList         |           | not planned |
 |         | getOvalData         |           | not planned |
 |         | getXccdfList        |           | not planned |
