@@ -80,8 +80,8 @@ func ExampleClient_GetVulnDetailInfo() {
 func ExampleClient_GetStatisticsHND() {
 	c := myjvn.NewClient(nil)
 	params := &myjvn.Parameter{
-		Theme:            "SumCvss",
-		CWEID:            "CEW-20",
+		Theme:            "sumCvss",
+		CWEID:            "CWE-20",
 		DatePublicStartY: 2015,
 	}
 	p := myjvn.NewParamsGetStatisticsHND(params)
