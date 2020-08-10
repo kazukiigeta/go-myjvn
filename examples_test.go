@@ -80,8 +80,8 @@ func ExampleClient_GetVulnDetailInfo() {
 func ExampleClient_GetStatisticsHND() {
 	c := myjvn.NewClient(nil)
 	params := &myjvn.Parameter{
-		Theme:            "SumCvss",
-		CWEID:            "CEW-20",
+		Theme:            "sumCvss",
+		CWEID:            "CWE-20",
 		DatePublicStartY: 2015,
 	}
 	p := myjvn.NewParamsGetStatisticsHND(params)
@@ -91,4 +91,20 @@ func ExampleClient_GetStatisticsHND() {
 	}
 
 	fmt.Println(statisticsHND.SumCVSS.Title)
+}
+
+func ExampleClient_GetStatisticsITM() {
+	c := myjvn.NewClient(nil)
+	params := &myjvn.Parameter{
+		Theme:            "sumCvss",
+		CWEID:            "CWE-20",
+		DatePublicStartY: 2015,
+	}
+	p := myjvn.NewParamsGetStatisticsITM(params)
+	statisticsITM, err := c.GetStatisticsITM(context.Background(), p)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(statisticsITM.SumCVSS.Title)
 }
