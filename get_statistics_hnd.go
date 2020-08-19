@@ -69,7 +69,7 @@ type ParamsGetStatisticsHND struct {
 	Feed             string `url:"feed"`
 	Theme            string `url:"theme"`
 	DataType         string `url:"type,omitempty"`
-	CWEID            string `url:"cweId"`
+	CWEID            string `url:"cweId,omitempy"`
 	PID              uint   `url:"pid,omitempty"`
 	CPEName          string `url:"cpeName,omitempty"`
 	DatePublicStartY uint16 `url:"datePublicStartY,omitempty"`
