@@ -56,22 +56,49 @@ type Parameter struct {
 
 // Status stores the data from API response.
 type Status struct {
-	Version          string `xml:"version,attr"`
-	Method           string `xml:"method,attr"`
-	Language         string `xml:"lang,attr"`
-	RetCd            uint   `xml:"retCd,attr"`
-	RetMax           string `xml:"retMax,attr"`
-	RetMaxCnt        string `xml:"retMaxCnt,attr"`
-	ErrCd            string `xml:"errCd,attr"`
-	ErrMsg           string `xml:"errMsg,attr"`
-	TotalRes         string `xml:"totalRes,attr"`
-	TotalResRet      string `xml:"totalResRet,attr"`
-	FirstRes         string `xml:"firstRes,attr"`
-	Feed             string `xml:"feed,attr"`
-	VulnID           string `xml:"vulnId,attr"`
-	Theme            string `xml:"theme,attr"`
-	CWEID            string `xml:"cweId,attr"`
-	DatePublicStartY uint16 `xml:"datePublicStartY,attr"`
+	Version                  string `xml:"version,attr"`
+	Method                   string `xml:"method,attr"`
+	Language                 string `xml:"lang,attr"`
+	RetCd                    uint   `xml:"retCd,attr"`
+	RetMax                   string `xml:"retMax,attr"`
+	RetMaxCnt                string `xml:"retMaxCnt,attr"`
+	ErrCd                    string `xml:"errCd,attr"`
+	ErrMsg                   string `xml:"errMsg,attr"`
+	TotalRes                 string `xml:"totalRes,attr"`
+	TotalResRet              string `xml:"totalResRet,attr"`
+	FirstRes                 string `xml:"firstRes,attr"`
+	Feed                     string `xml:"feed,attr"`
+	StartItem                uint   `xml:"startItem,attr"`
+	MaxCountItem             uint8  `xml:"maxCountItem,attr"`
+	DatePublished            uint16 `xml:"datePublished,attr"`
+	DateFirstPublished       uint16 `xml:"dateFirstPublished,attr"`
+	CPEName                  string `xml:"cpeName,attr"`
+	Format                   string `xml:"format,attr"`
+	Keyword                  string `xml:"keyword,attr"`
+	VendorID                 string `xml:"vendorId,attr"`
+	ProductID                string `xml:"productId,attr"`
+	VulnID                   string `xml:"vulnId,attr"`
+	Severity                 string `xml:"severity,attr"`
+	Vector                   string `xml:"vector,attr"`
+	RangeDatePublic          string `xml:"rangeDatePublic,attr"`
+	RangeDatePublished       string `xml:"rangeDatePublished,attr"`
+	RangeDateFirstPublished  string `xml:"rangeDateFirstPublished,attr"`
+	DatePublicStartY         uint16 `xml:"datePublicStartY,attr"`
+	DatePublicStartM         uint8  `xml:"datePublicStartM,attr"`
+	DatePublicStartD         uint8  `xml:"datePublicStartD,attr"`
+	DatePublicEndY           uint16 `xml:"datePublicEndY,attr"`
+	DatePublicEndM           uint8  `xml:"datePublicEndM,attr"`
+	DatePublicEndD           uint8  `xml:"datePublicEndD,attr"`
+	DateFirstPublishedStartY uint16 `xml:"dateFirstPublishedStartY,attr"`
+	DateFirstPublishedStartM uint8  `xml:"dateFirstPublishedStartM,attr"`
+	DateFirstPublishedStartD uint8  `xml:"dateFirstPublishedStartD,attr"`
+	DateFirstPublishedEndY   uint16 `xml:"dateFirstPublishedEndY,attr"`
+	DateFirstPublishedEndM   uint8  `xml:"dateFirstPublishedEndM,attr"`
+	DateFirstPublishedEndD   uint8  `xml:"dateFirstPublishedEndD,attr"`
+	Theme                    string `xml:"theme,attr"`
+	DataType                 string `xml:"dataType,attr"`
+	CWEID                    string `xml:"cweId,attr"`
+	PID                      uint   `xml:"pid,attr"`
 }
 
 // Default settings of REST API
