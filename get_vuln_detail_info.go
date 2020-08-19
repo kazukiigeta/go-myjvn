@@ -15,7 +15,7 @@ type ParamsGetVulnDetailInfo struct {
 	Feed         string `url:"feed"`
 	StartItem    uint   `url:"startItem,omitempty"`
 	MaxCountItem uint8  `url:"maxCountItem,omitempty"`
-	VulnID       string `url:"vulnId,omitempty"`
+	VulnID       string `url:"vulnId"`
 	Language     string `url:"lang,omitempty"`
 }
 
