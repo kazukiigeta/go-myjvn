@@ -45,6 +45,15 @@ type References struct {
 	Title  string `xml:"title,attr"`
 }
 
+// SecCVSS stores the data from API response.
+type SecCVSS struct {
+	Score    string `xml:"score,attr"`
+	Severity string `xml:"severity,attr"`
+	Vector   string `xml:"vector,attr"`
+	Version  string `xml:"version,attr"`
+	Type     string `xml:"type,attr"`
+}
+
 // Item stores the data from API response.
 type Item struct {
 	Title       string        `xml:"title"`
@@ -53,6 +62,11 @@ type Item struct {
 	Creator     string        `xml:"creator"`
 	Identifier  string        `xml:"identifier"`
 	References  []*References `xml:"references"`
+	CPE         CPE           `xml:"cpe"`
+	SecCVSS     []*SecCVSS    `xml:"cvss"`
+	Date        string        `xml:"date"`
+	Issued      string        `xml:"issued"`
+	Modified    string        `xml:"modified"`
 }
 
 // VulnOverviewList stores the data from API response.

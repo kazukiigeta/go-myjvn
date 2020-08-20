@@ -26,8 +26,12 @@ type VulInfoDescription struct {
 
 // CPE stores the data from API response.
 type CPE struct {
-	Text    string `xml:",chardata"`
-	Version string `xml:"version,attr"`
+	Text     string `xml:",chardata"`
+	Score    string `xml:"score,attr"`
+	Severity string `xml:"severity,attr"`
+	Vector   string `xml:"vector,attr"`
+	Version  string `xml:"version,attr"`
+	Type     string `xml:"type,attr"`
 }
 
 // AffectedItem stores the data from API response.
@@ -51,6 +55,7 @@ type Severity struct {
 // CVSS stores the data from API response.
 type CVSS struct {
 	Version  string   `xml:"version,attr"`
+	Score    string   `xml:"score,attr"`
 	Severity Severity `xml:"Severity"`
 	Base     string   `xml:"Base"`
 	Vector   string   `xml:"Vector"`

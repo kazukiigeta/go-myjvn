@@ -195,6 +195,29 @@ func TestGetVulnOverviewList(t *testing.T) {
 						Title: "Buffer Errors(CWE-119)",
 					},
 				},
+				CPE: CPE{
+					Text:    "cpe:/a:toyota:global_tech_stream",
+					Version: "2.2",
+				},
+				SecCVSS: []*SecCVSS{
+					&SecCVSS{
+						Version:  "3.0",
+						Score:    "4.1",
+						Severity: "Medium",
+						Vector:   "CVSS:3.0/AV:P/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L",
+						Type:     "Base",
+					},
+					&SecCVSS{
+						Version:  "2.0",
+						Score:    "4.4",
+						Severity: "Medium",
+						Vector:   "AV:L/AC:M/Au:N/C:P/I:P/A:P",
+						Type:     "Base",
+					},
+				},
+				Date:     "2020-07-29T14:48:07+09:00",
+				Issued:   "2020-07-29T14:48:07+09:00",
+				Modified: "2020-07-29T14:48:07+09:00",
 			},
 		},
 		Status: Status{
