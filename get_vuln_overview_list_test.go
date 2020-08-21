@@ -195,8 +195,10 @@ func TestGetVulnOverviewList(t *testing.T) {
 						Title: "Buffer Errors(CWE-119)",
 					},
 				},
-				CPE: CPE{
+				SecCPE: SecCPE{
 					Text:    "cpe:/a:toyota:global_tech_stream",
+					Vendor:  "TOYOTA MOTOR CORPORATION",
+					Product: "Global TechStream",
 					Version: "2.2",
 				},
 				SecCVSS: []*SecCVSS{

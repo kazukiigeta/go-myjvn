@@ -45,6 +45,14 @@ type References struct {
 	Title  string `xml:"title,attr"`
 }
 
+// SecCPE stores the data from API response.
+type SecCPE struct {
+	Text    string `xml:",chardata"`
+	Version string `xml:"version,attr"`
+	Vendor  string `xml:"vendor,attr"`
+	Product string `xml:"product,attr"`
+}
+
 // SecCVSS stores the data from API response.
 type SecCVSS struct {
 	Score    string `xml:"score,attr"`
@@ -62,7 +70,7 @@ type Item struct {
 	Creator     string        `xml:"creator"`
 	Identifier  string        `xml:"identifier"`
 	References  []*References `xml:"references"`
-	CPE         CPE           `xml:"cpe"`
+	SecCPE      SecCPE        `xml:"cpe"`
 	SecCVSS     []*SecCVSS    `xml:"cvss"`
 	Date        string        `xml:"date"`
 	Issued      string        `xml:"issued"`
