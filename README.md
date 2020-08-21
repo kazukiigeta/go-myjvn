@@ -39,6 +39,26 @@ go run main.go
 # Example of getVendorList
 cd examples/get-vendor-list
 go run main.go
+
+# Example of getProductList
+cd examples/get-product-list
+go run main.go -venorid 4499
+
+# Example of getVulnOverviewList
+cd examples/get-vuln-overview-list
+go run main.go
+
+# Example of getVulnDetailInfo
+cd examples/get-vuln-detail-info
+go run main.go -vulnid JVNDB-2020-007528
+
+# Example of getStatics ver HND
+cd examples/get-statistics-hnd
+go run main.go -cweID CWE-20 -datePublicStartY 2019
+
+# Example of getStatistics ver ITM
+cd examples/get-statistics-itm
+go run main.go -theme sumCvss -cweID CWE-20 -datePublicStartY 2019
 ```
 
 
