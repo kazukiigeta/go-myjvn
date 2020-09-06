@@ -10,6 +10,44 @@ import (
 	"net/url"
 )
 
+// PLProduct stores the data from API response.
+type PLProduct struct {
+	Text  string `xml:",chardata"`
+	PName string `xml:"pname,attr"`
+	CPE   string `xml:"cpe,attr"`
+	PID   string `xml:"pid,attr"`
+}
+
+// PLVendor stores the data from API response.
+type PLVendor struct {
+	Text     string       `xml:",chardata"`
+	VName    string       `xml:"vname,attr"`
+	CPE      string       `xml:"cpe,attr"`
+	VID      string       `xml:"vid,attr"`
+	Products []*PLProduct `xml:"Product"`
+}
+
+// PLVendorInfo stores the data from API response.
+type PLVendorInfo struct {
+	Text    string      `xml:",chardata"`
+	Lang    string      `xml:"lang,attr"`
+	Vendors []*PLVendor `xml:"Vendor"`
+}
+
+// ProductList stores the data from API response.
+type ProductList struct {
+	XMLName        xml.Name     `xml:"Result"`
+	Text           string       `xml:",chardata"`
+	Version        string       `xml:"version,attr"`
+	XSI            string       `xml:"xsi,attr"`
+	XMLNS          string       `xml:"xmlns,attr"`
+	MJRes          string       `xml:"mjres,attr"`
+	AttrStatus     string       `xml:"status,attr"`
+	SchemaLocation string       `xml:"schemaLocation,attr"`
+	VendorInfo     PLVendorInfo `xml:"VendorInfo"`
+	Status         Status       `xml:"Status"`
+}
+
 // ParamsGetProductList specifies the parameters of a HTTP request for GetProductList.
 type ParamsGetProductList struct {
 	Method       string `url:"method"`
@@ -21,13 +59,6 @@ type ParamsGetProductList struct {
 	ProductID    string `url:"productId,omitempty"`
 	Keyword      string `url:"keyword,omitempty"`
 	Language     string `url:"lang,omitempty"`
-}
-
-// ProductList stores the data from API response.
-type ProductList struct {
-	XMLName    xml.Name   `xml:"Result"`
-	VendorInfo VendorInfo `xml:"VendorInfo"`
-	Status     Status     `xml:"Status"`
 }
 
 // NewParamsGetProductList creates an instance of ParamsGetProductList.

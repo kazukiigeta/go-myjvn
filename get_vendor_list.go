@@ -10,6 +10,35 @@ import (
 	"net/url"
 )
 
+// VLVendor stores the data from API response.
+type VLVendor struct {
+	Text  string `xml:",chardata"`
+	VName string `xml:"vname,attr"`
+	CPE   string `xml:"cpe,attr"`
+	VID   string `xml:"vid,attr"`
+}
+
+// VLVendorInfo stores the data from API response.
+type VLVendorInfo struct {
+	Text    string      `xml:",chardata"`
+	Lang    string      `xml:"lang,attr"`
+	Vendors []*VLVendor `xml:"Vendor"`
+}
+
+// VendorList stores the data from API response.
+type VendorList struct {
+	XMLName        xml.Name     `xml:"Result"`
+	Text           string       `xml:",chardata"`
+	Version        string       `xml:"version,attr"`
+	XSI            string       `xml:"xsi,attr"`
+	XMLNS          string       `xml:"xmlns,attr"`
+	MJRes          string       `xml:"mjres,attr"`
+	AttrStatus     string       `xml:"status,attr"`
+	SchemaLocation string       `xml:"schemaLocation,attr"`
+	VendorInfo     VLVendorInfo `xml:"VendorInfo"`
+	Status         Status       `xml:"Status"`
+}
+
 // ParamsGetVendorList specifies the parameters of a HTTP request for GetVendorList.
 type ParamsGetVendorList struct {
 	Method       string `url:"method"`
@@ -21,33 +50,6 @@ type ParamsGetVendorList struct {
 	ProductID    string `url:"productId,omitempty"`
 	Keyword      string `url:"keyword,omitempty"`
 	Language     string `url:"lang,omitempty"`
-}
-
-// Product stores the data from API response.
-type Product struct {
-	PName string `xml:"pname,attr"`
-	CPE   string `xml:"cpe,attr"`
-	PID   string `xml:"pid,attr"`
-}
-
-// Vendor stores the data from API response.
-type Vendor struct {
-	VName    string     `xml:"vname,attr"`
-	CPE      string     `xml:"cpe,attr"`
-	VID      string     `xml:"vid,attr"`
-	Products []*Product `xml:"Product"`
-}
-
-// VendorInfo stores the data from API response.
-type VendorInfo struct {
-	Vendors []*Vendor `xml:"Vendor"`
-}
-
-// VendorList stores the data from API response.
-type VendorList struct {
-	XMLName    xml.Name   `xml:"Result"`
-	VendorInfo VendorInfo `xml:"VendorInfo"`
-	Status     Status     `xml:"Status"`
 }
 
 // NewParamsGetVendorList creates an instance of ParamsGetVendorList.

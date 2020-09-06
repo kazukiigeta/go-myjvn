@@ -45,42 +45,43 @@ func TestNewParamsGetProductList(t *testing.T) {
 }
 
 func TestGetProductList(t *testing.T) {
-	var expectedHTTPResp = `
-<Result version="3.3" xsi:schemaLocation="http://jvndb.jvn.jp/myjvn/Results https://jvndb.jvn.jp/schema/results_3.3.xsd">
-	<VendorInfo xml:lang="ja">
-		<Vendor vname="#1 deals and maps app" cpe="cpe:/:pointinside" vid="10133">
-			<Product pname="Point Inside Shopping & Travel" cpe="cpe:/a:pointinside:point_inside_shopping_%26_travel" pid="21248"/>
-		</Vendor>
-		<Vendor vname="#sysPass" cpe="cpe:/:syspass" vid="12776">
-			<Product pname="#sysPass" cpe="cpe:/a:syspass:syspass" pid="29385"/>
-		</Vendor>
-	</VendorInfo>
-	<status:Status version="3.3" method="getProductList" lang="ja" retCd="0" retMax="10000" errCd="errcd" errMsg="errmsg" totalRes="43019" totalResRet="2" firstRes="1" feed="hnd" maxCountItem="2"/>
-</Result>
-`
+	var expectedHTTPResp = `<Result version="3.3" xsi:schemaLocation="http://jvndb.jvn.jp/myjvn/Results https://jvndb.jvn.jp/schema/results_3.3.xsd"><VendorInfo xml:lang="ja"><Vendor vname="#1 deals and maps app" cpe="cpe:/:pointinside" vid="10133"><Product pname="Point Inside Shopping & Travel" cpe="cpe:/a:pointinside:point_inside_shopping_%26_travel" pid="21248"/></Vendor><Vendor vname="#sysPass" cpe="cpe:/:syspass" vid="12776"><Product pname="#sysPass" cpe="cpe:/a:syspass:syspass" pid="29385"/></Vendor></VendorInfo><status:Status version="3.3" method="getProductList" lang="ja" retCd="0" retMax="10000" errCd="errcd" errMsg="errmsg" totalRes="43019" totalResRet="2" firstRes="1" feed="hnd" maxCountItem="2"/></Result>`
 
 	var expectedProductList = &ProductList{
-		XMLName: xml.Name{Local: "Result"},
-		VendorInfo: VendorInfo{
-			Vendors: []*Vendor{
-				&Vendor{
+		XMLName:        xml.Name{Local: "Result"},
+		Text:           "",
+		Version:        "3.3",
+		XSI:            "",
+		XMLNS:          "",
+		MJRes:          "",
+		AttrStatus:     "",
+		SchemaLocation: "http://jvndb.jvn.jp/myjvn/Results https://jvndb.jvn.jp/schema/results_3.3.xsd",
+		VendorInfo: PLVendorInfo{
+			Text: "",
+			Lang: "ja",
+			Vendors: []*PLVendor{
+				&PLVendor{
+					Text:  "",
 					VName: "#1 deals and maps app",
 					CPE:   "cpe:/:pointinside",
 					VID:   "10133",
-					Products: []*Product{
-						&Product{
+					Products: []*PLProduct{
+						&PLProduct{
+							Text:  "",
 							PName: "Point Inside Shopping & Travel",
 							CPE:   "cpe:/a:pointinside:point_inside_shopping_%26_travel",
 							PID:   "21248",
 						},
 					},
 				},
-				&Vendor{
+				&PLVendor{
+					Text:  "",
 					VName: "#sysPass",
 					CPE:   "cpe:/:syspass",
 					VID:   "12776",
-					Products: []*Product{
-						&Product{
+					Products: []*PLProduct{
+						&PLProduct{
+							Text:  "",
 							PName: "#sysPass",
 							CPE:   "cpe:/a:syspass:syspass",
 							PID:   "29385",

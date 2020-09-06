@@ -60,7 +60,7 @@ func ExampleClient_GetVulnOverviewList() {
 		fmt.Println(err)
 	}
 
-	fmt.Println(vulnOverviewList.Item[0].Title)
+	fmt.Println(vulnOverviewList.Items[0].Title)
 }
 
 func ExampleClient_GetVulnDetailInfo() {
@@ -77,7 +77,7 @@ func ExampleClient_GetVulnDetailInfo() {
 	fmt.Println(vulnDetailInfo.VulInfo.VulInfoID)
 }
 
-func ExampleClient_GetStatisticsHND() {
+func ExampleClient_GetStatistics() {
 	c := myjvn.NewClient(nil)
 	params := &myjvn.Parameter{
 		Theme:            "sumCvss",
@@ -85,26 +85,10 @@ func ExampleClient_GetStatisticsHND() {
 		DatePublicStartY: 2015,
 	}
 	p := myjvn.NewParamsGetStatisticsHND(params)
-	statisticsHND, err := c.GetStatisticsHND(context.Background(), p)
+	statisticsHND, err := c.GetStatistics(context.Background(), p)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	fmt.Println(statisticsHND.SumCVSS.Title)
-}
-
-func ExampleClient_GetStatisticsITM() {
-	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{
-		Theme:            "sumCvss",
-		CWEID:            "CWE-20",
-		DatePublicStartY: 2015,
-	}
-	p := myjvn.NewParamsGetStatisticsITM(params)
-	statisticsITM, err := c.GetStatisticsITM(context.Background(), p)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(statisticsITM.SumCVSS.Title)
+	fmt.Println(statisticsHND.SumCVSS.Titles)
 }
