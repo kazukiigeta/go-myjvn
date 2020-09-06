@@ -41,7 +41,7 @@ func main() {
 		DatePublicStartY: uint16(*datePublicStartY),
 	}
 	p := myjvn.NewParamsGetStatisticsHND(params)
-	statisticsHND, err := c.GetStatisticsHND(context.Background(), p)
+	statisticsHND, err := c.GetStatistics(context.Background(), p)
 	if err != nil {
 		fmt.Println(err)
 	}

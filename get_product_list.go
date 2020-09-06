@@ -7,59 +7,59 @@ package myjvn
 import (
 	"context"
 	"encoding/xml"
-	"net/url"
 )
 
-// ParamsGetProductList specifies the parameters of a HTTP request for GetProductList.
-type ParamsGetProductList struct {
-	Method       string `url:"method"`
-	Feed         string `url:"feed"`
-	StartItem    uint   `url:"startItem,omitempty"`
-	MaxCountItem uint8  `url:"maxCountItem,omitempty"`
-	CPEName      string `url:"cpeName,omitempty"`
-	VendorID     string `url:"vendorId,omitempty"`
-	ProductID    string `url:"productId,omitempty"`
-	Keyword      string `url:"keyword,omitempty"`
-	Language     string `url:"lang,omitempty"`
+// PLProduct stores the data from API response.
+type PLProduct struct {
+	Text  string `xml:",chardata"`
+	PName string `xml:"pname,attr"`
+	CPE   string `xml:"cpe,attr"`
+	PID   string `xml:"pid,attr"`
+}
+
+// PLVendor stores the data from API response.
+type PLVendor struct {
+	Text     string       `xml:",chardata"`
+	VName    string       `xml:"vname,attr"`
+	CPE      string       `xml:"cpe,attr"`
+	VID      string       `xml:"vid,attr"`
+	Products []*PLProduct `xml:"Product"`
+}
+
+// PLVendorInfo stores the data from API response.
+type PLVendorInfo struct {
+	Text    string      `xml:",chardata"`
+	Lang    string      `xml:"lang,attr"`
+	Vendors []*PLVendor `xml:"Vendor"`
 }
 
 // ProductList stores the data from API response.
 type ProductList struct {
-	XMLName    xml.Name   `xml:"Result"`
-	VendorInfo VendorInfo `xml:"VendorInfo"`
-	Status     Status     `xml:"Status"`
-}
-
-// NewParamsGetProductList creates an instance of ParamsGetProductList.
-func NewParamsGetProductList(params *Parameter) *ParamsGetProductList {
-	if params == nil {
-		params = &Parameter{}
-	}
-
-	p := &ParamsGetProductList{
-		Method: "getProductList",
-		Feed:   "hnd",
-	}
-
-	p.StartItem = params.StartItem
-	p.MaxCountItem = params.MaxCountItem
-	p.CPEName = params.CPEName
-	p.VendorID = params.VendorID
-	p.ProductID = params.ProductID
-	p.Keyword = url.QueryEscape(params.Keyword)
-	p.Language = params.Language
-
-	return p
+	XMLName        xml.Name     `xml:"Result"`
+	Text           string       `xml:",chardata"`
+	Version        string       `xml:"version,attr"`
+	XSI            string       `xml:"xsi,attr"`
+	XMLNS          string       `xml:"xmlns,attr"`
+	MJRes          string       `xml:"mjres,attr"`
+	AttrStatus     string       `xml:"status,attr"`
+	SchemaLocation string       `xml:"schemaLocation,attr"`
+	VendorInfo     PLVendorInfo `xml:"VendorInfo"`
+	Status         Status       `xml:"Status"`
 }
 
 // GetProductList downloads a product list.
 // See: https://jvndb.jvn.jp/apis/getProductList_api_hnd.html
-func (c *Client) GetProductList(ctx context.Context, params *ParamsGetProductList) (*ProductList, error) {
-	if params == nil {
-		params = NewParamsGetProductList(nil)
+func (c *Client) GetProductList(ctx context.Context, opts ...Option) (*ProductList, error) {
+	p := &Parameter{
+		Method: "getProductList",
+		Feed:   "hnd",
 	}
 
-	u, err := addOptions(defaultAPIPath, params)
+	for _, opt := range opts {
+		opt(p)
+	}
+
+	u, err := addOptions(defaultAPIPath, p)
 	if err != nil {
 		return nil, err
 	}

@@ -9,6 +9,165 @@ import (
 	"encoding/xml"
 )
 
+// VDIVulInfoDesc stores the data from API response.
+type VDIVulInfoDesc struct {
+	Text     string `xml:",chardata"`
+	Overview string `xml:"Overview"`
+}
+
+// VDICPE stores the data from API response.
+type VDICPE struct {
+	Text    string `xml:",chardata"`
+	Version string `xml:"version,attr"`
+}
+
+// VDIAffectedItem stores the data from API response.
+type VDIAffectedItem struct {
+	Text        string `xml:",chardata"`
+	Name        string `xml:"Name"`
+	ProductName string `xml:"ProductName"`
+	CPE         VDICPE `xml:"Cpe"`
+	VersionNum  string `xml:"VersionNumber"`
+}
+
+// VDIAffected stores the data from API response.
+type VDIAffected struct {
+	Text         string             `xml:",chardata"`
+	AffectedItem []*VDIAffectedItem `xml:"AffectedItem"`
+}
+
+// VDISeverity stores the data from API response.
+type VDISeverity struct {
+	Text string `xml:",chardata"`
+	Type string `xml:"type,attr"`
+}
+
+// VDICVSS stores the data from API response.
+type VDICVSS struct {
+	Text     string      `xml:",chardata"`
+	Version  string      `xml:"version,attr"`
+	Severity VDISeverity `xml:"Severity"`
+	Base     string      `xml:"Base"`
+	Vector   string      `xml:"Vector"`
+}
+
+// VDIImpactItem stores the data from API response.
+type VDIImpactItem struct {
+	Text        string `xml:",chardata"`
+	Description string `xml:"Description"`
+}
+
+// VDIImpact stores the data from API response.
+type VDIImpact struct {
+	Text       string        `xml:",chardata"`
+	CVSS       VDICVSS       `xml:"Cvss"`
+	ImpactItem VDIImpactItem `xml:"ImpactItem"`
+}
+
+// VDISolutionItem stores the data from API response.
+type VDISolutionItem struct {
+	Text        string `xml:",chardata"`
+	Description string `xml:"Description"`
+}
+
+// VDISolution stores the data from API response.
+type VDISolution struct {
+	Text         string          `xml:",chardata"`
+	SolutionItem VDISolutionItem `xml:"SolutionItem"`
+}
+
+// VDIRelatedItem stores the data from API response.
+type VDIRelatedItem struct {
+	Text      string `xml:",chardata"`
+	Type      string `xml:"type,attr"`
+	Name      string `xml:"Name"`
+	VulInfoID string `xml:"VulinfoID"`
+	URL       string `xml:"URL"`
+	Title     string `xml:"Title"`
+}
+
+// VDIRelated stores the data from API response.
+type VDIRelated struct {
+	Text         string            `xml:",chardata"`
+	RelatedItems []*VDIRelatedItem `xml:"RelatedItem"`
+}
+
+// VDIHistoryItem stores the data from API response.
+type VDIHistoryItem struct {
+	Text        string `xml:",chardata"`
+	HistoryNo   string `xml:"HistoryNo"`
+	DateTime    string `xml:"DateTime"`
+	Description string `xml:"Description"`
+}
+
+// VDIHistory stores the data from API response.
+type VDIHistory struct {
+	Text        string         `xml:",chardata"`
+	HistoryItem VDIHistoryItem `xml:"HistoryItem"`
+}
+
+// VDIVulInfoData stores the data from API response.
+type VDIVulInfoData struct {
+	Text               string         `xml:",chardata"`
+	Title              string         `xml:"Title"`
+	VulInfoDesc        VDIVulInfoDesc `xml:"VulinfoDescription"`
+	Affected           VDIAffected    `xml:"Affected"`
+	Impact             VDIImpact      `xml:"Impact"`
+	Solution           VDISolution    `xml:"Solution"`
+	Related            VDIRelated     `xml:"Related"`
+	History            VDIHistory     `xml:"History"`
+	DateFirstPublished string         `xml:"DateFirstPublished"`
+	DateLastUpdated    string         `xml:"DateLastUpdated"`
+	DatePublic         string         `xml:"DatePublic"`
+}
+
+// VDIVulInfo stores the data from API response.
+type VDIVulInfo struct {
+	Text        string         `xml:",chardata"`
+	VulInfoID   string         `xml:"VulinfoID"`
+	VulInfoData VDIVulInfoData `xml:"VulinfoData"`
+}
+
+// VDIMarkingStruct stores the data from API response.
+type VDIMarkingStruct struct {
+	Text             string `xml:",chardata"`
+	Type             string `xml:"type,attr"`
+	MarkingModelName string `xml:"marking_model_name,attr"`
+	MarkingModelRef  string `xml:"marking_model_ref,attr"`
+	Color            string `xml:"color,attr"`
+}
+
+// VDIMarking stores the data from API response.
+type VDIMarking struct {
+	Text          string           `xml:",chardata"`
+	MarkingStruct VDIMarkingStruct `xml:"Marking_Structure"`
+}
+
+// VDIHandling stores the data from API response.
+type VDIHandling struct {
+	Text    string     `xml:",chardata"`
+	Marking VDIMarking `xml:"Marking"`
+}
+
+// VulnDetailInfo stores the data from API response.
+type VulnDetailInfo struct {
+	XMLName        xml.Name    `xml:"VULDEF-Document"`
+	Text           string      `xml:",chardata"`
+	Version        string      `xml:"version,attr"`
+	XSI            string      `xml:"xsi,attr"`
+	XMLNS          string      `xml:"xmlns,attr"`
+	VulDef         string      `xml:"vuldef,attr"`
+	AttrStatus     string      `xml:"status,attr"`
+	Sec            string      `xml:"sec,attr"`
+	Marking        string      `xml:"marking,attr"`
+	TLPMarking     string      `xml:"tlpMarking,attr"`
+	SchemaLocation string      `xml:"schemaLocation,attr"`
+	Lang           string      `xml:"lang,attr"`
+	VulInfo        VDIVulInfo  `xml:"Vulinfo"`
+	Handling       VDIHandling `xml:"handling"`
+	Status         Status      `xml:"Status"`
+}
+
 // ParamsGetVulnDetailInfo specifies the parameters of a HTTP request for GetVulnDetailInfo.
 type ParamsGetVulnDetailInfo struct {
 	Method       string `url:"method"`
@@ -17,119 +176,6 @@ type ParamsGetVulnDetailInfo struct {
 	MaxCountItem uint8  `url:"maxCountItem,omitempty"`
 	VulnID       string `url:"vulnId"`
 	Language     string `url:"lang,omitempty"`
-}
-
-// VulInfoDescription stores the data from API response.
-type VulInfoDescription struct {
-	Overview string `xml:"Overview"`
-}
-
-// CPE stores the data from API response.
-type CPE struct {
-	Text    string `xml:",chardata"`
-	Version string `xml:"version,attr"`
-}
-
-// AffectedItem stores the data from API response.
-type AffectedItem struct {
-	Name        string `xml:"Name"`
-	ProductName string `xml:"ProductName"`
-	CPE         CPE    `xml:"Cpe"`
-}
-
-// Affected stores the data from API response.
-type Affected struct {
-	AffectedItem []*AffectedItem `xml:"AffectedItem"`
-}
-
-// Severity stores the data from API response.
-type Severity struct {
-	Text string `xml:",chardata"`
-	Type string `xml:"type,attr"`
-}
-
-// CVSS stores the data from API response.
-type CVSS struct {
-	Version  string   `xml:"version,attr"`
-	Score    string   `xml:"score,attr"`
-	Severity Severity `xml:"Severity"`
-	Base     string   `xml:"Base"`
-	Vector   string   `xml:"Vector"`
-}
-
-// ImpactItem stores the data from API response.
-type ImpactItem struct {
-	Description string `xml:"Description"`
-}
-
-// Impact stores the data from API response.
-type Impact struct {
-	CVSS       CVSS       `xml:"Cvss"`
-	ImpactItem ImpactItem `xml:"ImpactItem"`
-}
-
-// SolutionItem stores the data from API response.
-type SolutionItem struct {
-	Description string `xml:"Description"`
-}
-
-// Solution stores the data from API response.
-type Solution struct {
-	SolutionItem SolutionItem `xml:"SolutionItem"`
-}
-
-// RelatedItem stores the data from API response.
-type RelatedItem struct {
-	Type      string `xml:"type,attr"`
-	Name      string `xml:"Name"`
-	VulInfoID string `xml:"VulinfoID"`
-	URL       string `xml:"URL"`
-	Title     string `xml:"Title"`
-}
-
-// Related stores the data from API response.
-type Related struct {
-	RelatedItem []*RelatedItem `xml:"RelatedItem"`
-}
-
-// HistoryItem stores the data from API response.
-type HistoryItem struct {
-	HistoryNo   string `xml:"HistoryNo"`
-	DateTime    string `xml:"DateTime"`
-	Description string `xml:"Description"`
-}
-
-// History stores the data from API response.
-type History struct {
-	HistoryItem HistoryItem `xml:"HistoryItem"`
-}
-
-// VulInfoData stores the data from API response.
-type VulInfoData struct {
-	Title              string             `xml:"Title"`
-	VulInfoDescription VulInfoDescription `xml:"VulinfoDescription"`
-	Affected           Affected           `xml:"Affected"`
-	Impact             Impact             `xml:"Impact"`
-	Solution           Solution           `xml:"Solution"`
-	Related            Related            `xml:"Related"`
-	History            History            `xml:"History"`
-	DateFirstPublished string             `xml:"DateFirstPublished"`
-	DateLastUpdated    string             `xml:"DateLastUpdated"`
-	DatePublic         string             `xml:"DatePublic"`
-}
-
-// VulInfo stores the data from API response.
-type VulInfo struct {
-	VulInfoID   string      `xml:"VulinfoID"`
-	VulInfoData VulInfoData `xml:"VulinfoData"`
-}
-
-// VulnDetailInfo stores the data from API response.
-type VulnDetailInfo struct {
-	XMLName     xml.Name    `xml:"VULDEF-Document"`
-	VulInfo     VulInfo     `xml:"Vulinfo"`
-	SecHandling SecHandling `xml:"handling"`
-	Status      Status      `xml:"Status"`
 }
 
 // NewParamsGetVulnDetailInfo creates an instance of ParamsGetVulnDetailInfo.
