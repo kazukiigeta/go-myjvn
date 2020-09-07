@@ -38,7 +38,7 @@ func main() {
 	fmt.Println("Result of the getVulnOverviewList command")
 	fmt.Println("------------------------------------------")
 
-	n := len(vulnOverviewList.Item)
+	n := len(vulnOverviewList.Items)
 	var s string = strconv.Itoa(n)
 	switch n {
 	case 0:
@@ -54,7 +54,7 @@ func main() {
 
 	fmt.Printf("%s\n\n", s)
 	fmt.Printf("Here is the results.\n\n")
-	for _, v := range vulnOverviewList.Item {
+	for _, v := range vulnOverviewList.Items {
 		fmt.Printf("%v\n", v.Title)
 	}
 	fmt.Println("---------------------------------------")

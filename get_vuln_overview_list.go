@@ -10,51 +10,78 @@ import (
 	"net/url"
 )
 
-// LI stores the data from API response.
-type LI struct {
+// VOLMarkingStruct stores the data from API response.
+type VOLMarkingStruct struct {
+	Text             string `xml:",chardata"`
+	Type             string `xml:"type,attr"`
+	MarkingModelName string `xml:"marking_model_name,attr"`
+	MarkingModelRef  string `xml:"marking_model_ref,attr"`
+	Color            string `xml:"color,attr"`
+}
+
+// VOLMarking stores the data from API response.
+type VOLMarking struct {
+	Text          string           `xml:",chardata"`
+	MarkingStruct VOLMarkingStruct `xml:"Marking_Structure"`
+}
+
+// VOLHandling stores the data from API response.
+type VOLHandling struct {
+	Text    string     `xml:",chardata"`
+	Marking VOLMarking `xml:"Marking"`
+}
+
+// VOLLI stores the data from API response.
+type VOLLI struct {
+	Text     string `xml:",chardata"`
 	Resource string `xml:"resource,attr"`
 }
 
-// Seq stores the data from API response.
-type Seq struct {
-	LI LI `xml:"li"`
+// VOLSeq stores the data from API response.
+type VOLSeq struct {
+	Text string   `xml:",chardata"`
+	LI   []*VOLLI `xml:"li"`
 }
 
-// Items stores the data from API response.
-type Items struct {
-	Seq Seq `xml:"Seq"`
+// VOLChannelItems stores the data from API response.
+type VOLChannelItems struct {
+	Text string `xml:",chardata"`
+	Seq  VOLSeq `xml:"Seq"`
 }
 
-// Channel stores the data from API response.
-type Channel struct {
-	Title       string      `xml:"title"`
-	Link        string      `xml:"link"`
-	Description string      `xml:"description"`
-	Date        string      `xml:"date"`
-	Issued      string      `xml:"issued"`
-	Modified    string      `xml:"modified"`
-	SecHandling SecHandling `xml:"handling"`
-	Items       Items       `xml:"items"`
+// VOLChannel stores the data from API response.
+type VOLChannel struct {
+	Text        string          `xml:",chardata"`
+	About       string          `xml:"about,attr"`
+	Title       string          `xml:"title"`
+	Link        string          `xml:"link"`
+	Description string          `xml:"description"`
+	Date        string          `xml:"date"`
+	Issued      string          `xml:"issued"`
+	Modified    string          `xml:"modified"`
+	Handling    VOLHandling     `xml:"handling"`
+	Items       VOLChannelItems `xml:"items"`
 }
 
-// References stores the data from API response.
-type References struct {
+// VOLReferences stores the data from API response.
+type VOLReferences struct {
 	Text   string `xml:",chardata"`
 	Source string `xml:"source,attr"`
 	ID     string `xml:"id,attr"`
 	Title  string `xml:"title,attr"`
 }
 
-// SecCPE stores the data from API response.
-type SecCPE struct {
+// VOLCPE stores the data from API response.
+type VOLCPE struct {
 	Text    string `xml:",chardata"`
 	Version string `xml:"version,attr"`
 	Vendor  string `xml:"vendor,attr"`
 	Product string `xml:"product,attr"`
 }
 
-// SecCVSS stores the data from API response.
-type SecCVSS struct {
+// VOLCVSS stores the data from API response.
+type VOLCVSS struct {
+	Text     string `xml:",chardata"`
 	Score    string `xml:"score,attr"`
 	Severity string `xml:"severity,attr"`
 	Vector   string `xml:"vector,attr"`
@@ -62,27 +89,42 @@ type SecCVSS struct {
 	Type     string `xml:"type,attr"`
 }
 
-// Item stores the data from API response.
-type Item struct {
-	Title       string        `xml:"title"`
-	Link        string        `xml:"link"`
-	Description string        `xml:"description"`
-	Creator     string        `xml:"creator"`
-	Identifier  string        `xml:"identifier"`
-	References  []*References `xml:"references"`
-	SecCPE      SecCPE        `xml:"cpe"`
-	SecCVSS     []*SecCVSS    `xml:"cvss"`
-	Date        string        `xml:"date"`
-	Issued      string        `xml:"issued"`
-	Modified    string        `xml:"modified"`
+// VOLItem stores the data from API response.
+type VOLItem struct {
+	Text        string           `xml:",chardata"`
+	About       string           `xml:"about,attr"`
+	Title       string           `xml:"title"`
+	Link        string           `xml:"link"`
+	Description string           `xml:"description"`
+	Creator     string           `xml:"creator"`
+	Identifier  string           `xml:"identifier"`
+	References  []*VOLReferences `xml:"references"`
+	CPEs        []*VOLCPE        `xml:"cpe"`
+	CVSSes      []*VOLCVSS       `xml:"cvss"`
+	Date        string           `xml:"date"`
+	Issued      string           `xml:"issued"`
+	Modified    string           `xml:"modified"`
 }
 
 // VulnOverviewList stores the data from API response.
 type VulnOverviewList struct {
-	XMLName xml.Name `xml:"RDF"`
-	Channel Channel  `xml:"channel"`
-	Item    []*Item  `xml:"item"`
-	Status  Status   `xml:"Status"`
+	XMLName        xml.Name   `xml:"RDF"`
+	Text           string     `xml:",chardata"`
+	XSI            string     `xml:"xsi,attr"`
+	XMLNS          string     `xml:"xmlns,attr"`
+	RSS            string     `xml:"rss,attr"`
+	RDF            string     `xml:"rdf,attr"`
+	DC             string     `xml:"dc,attr"`
+	DCTerms        string     `xml:"dcterms,attr"`
+	Sec            string     `xml:"sec,attr"`
+	Marking        string     `xml:"marking,attr"`
+	TLPMarking     string     `xml:"tlpMarking,attr"`
+	AttrStatus     string     `xml:"status,attr"`
+	SchemaLocation string     `xml:"schemaLocation,attr"`
+	Lang           string     `xml:"lang,attr"`
+	Channel        VOLChannel `xml:"channel"`
+	Items          []*VOLItem `xml:"item"`
+	Status         Status     `xml:"Status"`
 }
 
 // ParamsGetVulnOverviewList specifies the parameters of a HTTP request for GetVulnOverviewList.
