@@ -143,7 +143,7 @@ func TestGetAlertList(t *testing.T) {
 				fmt.Fprint(w, c.httpResp)
 			})
 
-			alertList, err := client.GetAlertList(context.Background())
+			alertList, err := client.GetAlertList(context.Background(), SetFormat(c.respFormat))
 			if err != nil {
 				t.Fatalf("GetAlertList returned error: %v", err)
 			}

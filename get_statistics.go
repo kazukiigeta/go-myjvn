@@ -81,7 +81,7 @@ type Statistics struct {
 // See: https://jvndb.jvn.jp/apis/getStatistics_api_hnd.html
 // See: https://jvndb.jvn.jp/apis/getStatistics_api_itm.html
 func (c *Client) GetStatistics(ctx context.Context, opts ...Option) (*Statistics, error) {
-	p := &Parameter{
+	p := &parameter{
 		Method: "getStatistics",
 		Feed:   "hnd",
 	}

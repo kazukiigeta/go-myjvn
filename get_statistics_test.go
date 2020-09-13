@@ -171,7 +171,6 @@ func TestGetStatisticsHND(t *testing.T) {
 	type testCase struct {
 		description string
 		httpResp    string
-		respFormat  string
 		structured  *Statistics
 	}
 	var testcases = []testCase{

@@ -47,9 +47,7 @@ func ExampleClient_GetProductList() {
 
 func ExampleClient_GetVulnOverviewList() {
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{}
-	p := myjvn.NewParamsGetVulnOverviewList(params)
-	vulnOverviewList, err := c.GetVulnOverviewList(context.Background(), p)
+	vulnOverviewList, err := c.GetVulnOverviewList(context.Background())
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -59,11 +57,7 @@ func ExampleClient_GetVulnOverviewList() {
 
 func ExampleClient_GetVulnDetailInfo() {
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{
-		VulnID: "JVNDB-2020-006469",
-	}
-	p := myjvn.NewParamsGetVulnDetailInfo(params)
-	vulnDetailInfo, err := c.GetVulnDetailInfo(context.Background(), p)
+	vulnDetailInfo, err := c.GetVulnDetailInfo(context.Background(), myjvn.SetVulnID("JVNDB-2020-006469"))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -74,11 +68,26 @@ func ExampleClient_GetVulnDetailInfo() {
 func ExampleClient_GetStatistics() {
 	c := myjvn.NewClient(nil)
 
-	statisticsHND, err := c.GetStatistics(
-		context.Background(), myjvn.SetTheme("sumCvss"), myjvn.SetCWEID("CWE-20"), myjvn.SetDatePublicStartY(2015))
+	statisticsHND, err := c.GetStatistics(context.Background(),
+		myjvn.SetFeed("hnd"),
+		myjvn.SetTheme("sumCvss"),
+		myjvn.SetCWEID("CWE-20"),
+		myjvn.SetDatePublicStartY(2015),
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	statisticsITM, err := c.GetStatistics(context.Background(),
+		myjvn.SetFeed("itm"),
+		myjvn.SetTheme("sumCvss"),
+		myjvn.SetCWEID("CWE-20"),
+		myjvn.SetDatePublicStartY(2015),
+	)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	fmt.Println(statisticsHND.SumCVSS.Titles)
+	fmt.Println(statisticsITM.SumCVSS.Titles)
 }

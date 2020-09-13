@@ -22,9 +22,7 @@ func main() {
 	flag.Parse()
 
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{Keyword: url.QueryEscape(*keyword)}
-	p := myjvn.NewParamsGetVendorList(params)
-	vendorList, err := c.GetVendorList(context.Background(), p)
+	vendorList, err := c.GetVendorList(context.Background(), myjvn.SetKeyword(url.QueryEscape(*keyword)))
 	if err != nil {
 		fmt.Println(err)
 	}

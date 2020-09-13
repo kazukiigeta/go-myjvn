@@ -10,7 +10,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"reflect"
@@ -19,8 +18,8 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// Parameter represents all the parameters of API except method and feed.
-type Parameter struct {
+// parameter represents all the parameters of API except method and feed.
+type parameter struct {
 	Method                   string `url:"method"`
 	Feed                     string `url:"feed"`
 	StartItem                uint   `url:"startItem,omitempty"`
@@ -28,7 +27,7 @@ type Parameter struct {
 	DatePublished            uint16 `url:"datePublished,omitempty"`
 	DateFirstPublished       uint16 `url:"dateFirstPublished,omitempty"`
 	CPEName                  string `url:"cpeName,omitempty"`
-	Format                   string `url:"format,omitempty"`
+	Format                   string `url:"ft,omitempty"`
 	Keyword                  string `url:"keyword,omitempty"`
 	Language                 string `url:"language,omitempty"`
 	VendorID                 string `url:"vendorId,omitempty"`
@@ -52,17 +51,35 @@ type Parameter struct {
 	DateFirstPublishedEndM   uint8  `url:"dateFirstPublicEndM,omitempty"`
 	DateFirstPublishedEndD   uint8  `url:"dateFirstPublicEndD,omitempty"`
 	Theme                    string `url:"theme,omitempty"`
-	DataType                 string `url:"dataType,omitempty"`
+	AggrType                 string `url:"type,omitempty"`
 	CWEID                    string `url:"cweId,omitempty"`
 	PID                      uint   `url:"pid,omitempty"`
 }
 
 // Option AAA
-type Option func(p *Parameter)
+type Option func(p *parameter)
+
+// SetMethod BBB
+func SetMethod(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.Method = s
+		}
+	}
+}
+
+// SetFeed BBB
+func SetFeed(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.Feed = s
+		}
+	}
+}
 
 // SetStartItem BBB
 func SetStartItem(u uint) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.StartItem = u
 		}
@@ -71,7 +88,7 @@ func SetStartItem(u uint) Option {
 
 // SetMaxCountItem BBB
 func SetMaxCountItem(u uint8) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.MaxCountItem = u
 		}
@@ -80,7 +97,7 @@ func SetMaxCountItem(u uint8) Option {
 
 // SetDatePublished BBB
 func SetDatePublished(u uint16) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.DatePublished = u
 		}
@@ -89,7 +106,7 @@ func SetDatePublished(u uint16) Option {
 
 // SetDateFirstPublished BBB
 func SetDateFirstPublished(u uint16) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.DateFirstPublished = u
 		}
@@ -98,7 +115,7 @@ func SetDateFirstPublished(u uint16) Option {
 
 // SetCPEName BBB
 func SetCPEName(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.CPEName = s
 		}
@@ -107,7 +124,7 @@ func SetCPEName(s string) Option {
 
 // SetFormat BBB
 func SetFormat(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.Format = s
 		}
@@ -116,7 +133,7 @@ func SetFormat(s string) Option {
 
 // SetKeyword BBB
 func SetKeyword(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.Keyword = url.QueryEscape(s)
 		}
@@ -125,7 +142,7 @@ func SetKeyword(s string) Option {
 
 // SetLanguage BBB
 func SetLanguage(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.Language = s
 		}
@@ -134,7 +151,7 @@ func SetLanguage(s string) Option {
 
 // SetVendorID BBB
 func SetVendorID(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.VendorID = s
 		}
@@ -143,7 +160,7 @@ func SetVendorID(s string) Option {
 
 // SetProductID BBB
 func SetProductID(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.ProductID = s
 		}
@@ -152,7 +169,7 @@ func SetProductID(s string) Option {
 
 // SetVulnID BBB
 func SetVulnID(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.VulnID = s
 		}
@@ -161,7 +178,7 @@ func SetVulnID(s string) Option {
 
 // SetSeverity BBB
 func SetSeverity(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.Severity = s
 		}
@@ -170,7 +187,7 @@ func SetSeverity(s string) Option {
 
 // SetVector BBB
 func SetVector(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.Vector = s
 		}
@@ -179,7 +196,7 @@ func SetVector(s string) Option {
 
 // SetRangeDatePublic BBB
 func SetRangeDatePublic(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.RangeDatePublic = s
 		}
@@ -188,7 +205,7 @@ func SetRangeDatePublic(s string) Option {
 
 // SetRangeDatePublished BBB
 func SetRangeDatePublished(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.RangeDatePublished = s
 		}
@@ -197,7 +214,7 @@ func SetRangeDatePublished(s string) Option {
 
 // SetRangeDateFirstPublished BBB
 func SetRangeDateFirstPublished(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.RangeDateFirstPublished = s
 		}
@@ -206,7 +223,7 @@ func SetRangeDateFirstPublished(s string) Option {
 
 // SetDatePublicStartY BBB
 func SetDatePublicStartY(u uint16) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.DatePublicStartY = u
 		}
@@ -215,7 +232,7 @@ func SetDatePublicStartY(u uint16) Option {
 
 // SetDatePublicStartM BBB
 func SetDatePublicStartM(u uint8) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.DatePublicStartM = u
 		}
@@ -224,7 +241,7 @@ func SetDatePublicStartM(u uint8) Option {
 
 // SetDatePublicStartD BBB
 func SetDatePublicStartD(u uint8) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.DatePublicStartD = u
 		}
@@ -233,7 +250,7 @@ func SetDatePublicStartD(u uint8) Option {
 
 // SetDatePublicEndY BBB
 func SetDatePublicEndY(u uint16) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.DatePublicEndY = u
 		}
@@ -242,7 +259,7 @@ func SetDatePublicEndY(u uint16) Option {
 
 // SetDatePublicEndM BBB
 func SetDatePublicEndM(u uint8) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.DatePublicEndM = u
 		}
@@ -251,88 +268,88 @@ func SetDatePublicEndM(u uint8) Option {
 
 // SetDatePublicEndD BBB
 func SetDatePublicEndD(u uint8) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.DatePublicEndD = u
 		}
 	}
 }
 
-// DateFirstPublishedStartY BBB
-func DateFirstPublishedStartY(u uint16) Option {
-	return func(p *Parameter) {
+// SetDateFirstPublishedStartY BBB
+func SetDateFirstPublishedStartY(u uint16) Option {
+	return func(p *parameter) {
 		if p != nil {
-			p.DatePublicStartY = u
+			p.DateFirstPublishedStartY = u
 		}
 	}
 }
 
-// DateFirstPublishedStartM BBB
-func DateFirstPublishedStartM(u uint8) Option {
-	return func(p *Parameter) {
+// SetDateFirstPublishedStartM BBB
+func SetDateFirstPublishedStartM(u uint8) Option {
+	return func(p *parameter) {
 		if p != nil {
-			p.DatePublicStartM = u
+			p.DateFirstPublishedStartM = u
 		}
 	}
 }
 
-// DateFirstPublishedStartD BBB
-func DateFirstPublishedStartD(u uint8) Option {
-	return func(p *Parameter) {
+// SetDateFirstPublishedStartD BBB
+func SetDateFirstPublishedStartD(u uint8) Option {
+	return func(p *parameter) {
 		if p != nil {
-			p.DatePublicStartD = u
+			p.DateFirstPublishedStartD = u
 		}
 	}
 }
 
-// DateFirstPublishedEndY BBB
-func DateFirstPublishedEndY(u uint16) Option {
-	return func(p *Parameter) {
+// SetDateFirstPublishedEndY BBB
+func SetDateFirstPublishedEndY(u uint16) Option {
+	return func(p *parameter) {
 		if p != nil {
-			p.DatePublicEndY = u
+			p.DateFirstPublishedEndY = u
 		}
 	}
 }
 
-// DateFirstPublishedEndM BBB
-func DateFirstPublishedEndM(u uint8) Option {
-	return func(p *Parameter) {
+// SetDateFirstPublishedEndM BBB
+func SetDateFirstPublishedEndM(u uint8) Option {
+	return func(p *parameter) {
 		if p != nil {
-			p.DatePublicEndM = u
+			p.DateFirstPublishedEndM = u
 		}
 	}
 }
 
-// DateFirstPublishedEndD BBB
-func DateFirstPublishedEndD(u uint8) Option {
-	return func(p *Parameter) {
+// SetDateFirstPublishedEndD BBB
+func SetDateFirstPublishedEndD(u uint8) Option {
+	return func(p *parameter) {
 		if p != nil {
-			p.DatePublicEndD = u
+			p.DateFirstPublishedEndD = u
 		}
 	}
 }
 
 // SetTheme BBB
 func SetTheme(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.Theme = s
 		}
 	}
 }
 
-// SetDataType BBB
-func SetDataType(s string) Option {
-	return func(p *Parameter) {
+// SetAggrType BBB
+func SetAggrType(s string) Option {
+	return func(p *parameter) {
 		if p != nil {
-			p.DataType = s
+			p.AggrType = s
 		}
 	}
 }
 
 // SetCWEID BBB
 func SetCWEID(s string) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.CWEID = s
 		}
@@ -341,7 +358,7 @@ func SetCWEID(s string) Option {
 
 // SetPID BBB
 func SetPID(u uint) Option {
-	return func(p *Parameter) {
+	return func(p *parameter) {
 		if p != nil {
 			p.PID = u
 		}
@@ -390,7 +407,7 @@ type Status struct {
 	DateFirstPublishedEndM   uint8  `xml:"dateFirstPublishedEndM,attr"`
 	DateFirstPublishedEndD   uint8  `xml:"dateFirstPublishedEndD,attr"`
 	Theme                    string `xml:"theme,attr"`
-	DataType                 string `xml:"dataType,attr"`
+	AggrType                 string `xml:"type,attr"`
 	CWEID                    string `xml:"cweId,attr"`
 	PID                      uint   `xml:"pid,attr"`
 }
@@ -456,8 +473,6 @@ func (c *Client) do(ctx context.Context, req *http.Request, format *string, v in
 		return err
 	}
 	defer resp.Body.Close()
-	byteArray, _ := ioutil.ReadAll(resp.Body)
-	fmt.Printf("aa=%v\n", string(byteArray))
 
 	var decoder interface {
 		Decode(interface{}) error

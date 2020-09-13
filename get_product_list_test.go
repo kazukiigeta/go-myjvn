@@ -79,7 +79,6 @@ func TestGetProductList(t *testing.T) {
 	type testCase struct {
 		description string
 		httpResp    string
-		respFormat  string
 		structured  *ProductList
 	}
 	var testcases = []testCase{

@@ -19,9 +19,12 @@ For example:
 
 ```golang
 c := myjvn.NewClient(nil)
-params := &myjvn.Parameter{}
-p := myjvn.NewParamsGetAlertList(params)
-alertList, err := c.GetAlertList(context.Background(), p)
+alertList, err := c.GetAlertList(context.Background(),
+	SetKeyword("android"),
+	SetRangeDatePublic("n"),
+	SetRangeDatePublished("n"),
+	SetRangeDateFirstPublished("n"),
+)
 if err != nil {
 	fmt.Println(err)
 }
@@ -42,7 +45,7 @@ go run main.go
 
 # Example of getProductList
 cd examples/get-product-list
-go run main.go -venorid 4499
+go run main.go -venorID 4499
 
 # Example of getVulnOverviewList
 cd examples/get-vuln-overview-list

@@ -62,7 +62,6 @@ func TestGetVendorList(t *testing.T) {
 	type testCase struct {
 		description string
 		httpResp    string
-		respFormat  string
 		structured  *VendorList
 	}
 	var testcases = []testCase{

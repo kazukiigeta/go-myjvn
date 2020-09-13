@@ -94,24 +94,24 @@ type ALEntry struct {
 
 // AlertList stores the data from API response.
 type AlertList struct {
-	XMLName xml.Name `xml:"feed"`
-	//Text           string     `xml:",chardata"`
-	//SchemaLocation string     `xml:"schemaLocation,attr"`
-	//Lang           string     `xml:"lang,attr"`
-	Title ALTitle `xml:"title"`
-	//Updated        string     `xml:"updated"`
-	//ID             string     `xml:"id"`
-	//Link           ALLink     `xml:"link"`
-	//Author         ALAuthor   `xml:"author"`
-	//Handling       ALHandling `xml:"handling"`
-	Entries []*ALEntry `xml:"entry"`
-	//Status         Status     `xml:"Status"`
+	XMLName        xml.Name   `xml:"feed"`
+	Text           string     `xml:",chardata"`
+	SchemaLocation string     `xml:"schemaLocation,attr"`
+	Lang           string     `xml:"lang,attr"`
+	Title          ALTitle    `xml:"title"`
+	Updated        string     `xml:"updated"`
+	ID             string     `xml:"id"`
+	Link           ALLink     `xml:"link"`
+	Author         ALAuthor   `xml:"author"`
+	Handling       ALHandling `xml:"handling"`
+	Entries        []*ALEntry `xml:"entry"`
+	Status         Status     `xml:"Status"`
 }
 
 // GetAlertList downloads an alert list.
 // See: https://jvndb.jvn.jp/apis/getAlertList_api_hnd.html
 func (c *Client) GetAlertList(ctx context.Context, opts ...Option) (*AlertList, error) {
-	p := &Parameter{
+	p := &parameter{
 		Method: "getAlertList",
 		Feed:   "hnd",
 	}
