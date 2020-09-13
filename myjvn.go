@@ -18,40 +18,351 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-// Parameter represents all the parameters of API except method and feed.
-type Parameter struct {
-	StartItem                uint
-	MaxCountItem             uint8
-	DatePublished            uint16
-	DateFirstPublished       uint16
-	CPEName                  string
-	Format                   string
-	Keyword                  string
-	Language                 string
-	VendorID                 string
-	ProductID                string
-	VulnID                   string
-	Severity                 string
-	Vector                   string
-	RangeDatePublic          string
-	RangeDatePublished       string
-	RangeDateFirstPublished  string
-	DatePublicStartY         uint16
-	DatePublicStartM         uint8
-	DatePublicStartD         uint8
-	DatePublicEndY           uint16
-	DatePublicEndM           uint8
-	DatePublicEndD           uint8
-	DateFirstPublishedStartY uint16
-	DateFirstPublishedStartM uint8
-	DateFirstPublishedStartD uint8
-	DateFirstPublishedEndY   uint16
-	DateFirstPublishedEndM   uint8
-	DateFirstPublishedEndD   uint8
-	Theme                    string
-	DataType                 string
-	CWEID                    string
-	PID                      uint
+// parameter represents all the parameters of API except method and feed.
+type parameter struct {
+	Method                   string `url:"method"`
+	Feed                     string `url:"feed"`
+	StartItem                uint   `url:"startItem,omitempty"`
+	MaxCountItem             uint8  `url:"maxCountItem,omitempty"`
+	DatePublished            uint16 `url:"datePublished,omitempty"`
+	DateFirstPublished       uint16 `url:"dateFirstPublished,omitempty"`
+	CPEName                  string `url:"cpeName,omitempty"`
+	Format                   string `url:"ft,omitempty"`
+	Keyword                  string `url:"keyword,omitempty"`
+	Language                 string `url:"language,omitempty"`
+	VendorID                 string `url:"vendorId,omitempty"`
+	ProductID                string `url:"productId,omitempty"`
+	VulnID                   string `url:"vulnId,omitempty"`
+	Severity                 string `url:"severity,omitempty"`
+	Vector                   string `url:"vector,omitempty"`
+	RangeDatePublic          string `url:"rangeDatePublic,omitempty"`
+	RangeDatePublished       string `url:"rangeDatePublished,omitempty"`
+	RangeDateFirstPublished  string `url:"rangeDateFirstPublished,omitempty"`
+	DatePublicStartY         uint16 `url:"datePublicStartY,omitempty"`
+	DatePublicStartM         uint8  `url:"datePublicStartM,omitempty"`
+	DatePublicStartD         uint8  `url:"datePublicStartD,omitempty"`
+	DatePublicEndY           uint16 `url:"datePublicEndY,omitempty"`
+	DatePublicEndM           uint8  `url:"datePublicEndM,omitempty"`
+	DatePublicEndD           uint8  `url:"datePublicEndD,omitempty"`
+	DateFirstPublishedStartY uint16 `url:"dateFirstPublicStartY,omitempty"`
+	DateFirstPublishedStartM uint8  `url:"dateFirstPublicStartM,omitempty"`
+	DateFirstPublishedStartD uint8  `url:"dateFirstPublicStartD,omitempty"`
+	DateFirstPublishedEndY   uint16 `url:"dateFirstPublicEndY,omitempty"`
+	DateFirstPublishedEndM   uint8  `url:"dateFirstPublicEndM,omitempty"`
+	DateFirstPublishedEndD   uint8  `url:"dateFirstPublicEndD,omitempty"`
+	Theme                    string `url:"theme,omitempty"`
+	AggrType                 string `url:"type,omitempty"`
+	CWEID                    string `url:"cweId,omitempty"`
+	PID                      uint   `url:"pid,omitempty"`
+}
+
+// Option AAA
+type Option func(p *parameter)
+
+// SetMethod BBB
+func SetMethod(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.Method = s
+		}
+	}
+}
+
+// SetFeed BBB
+func SetFeed(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.Feed = s
+		}
+	}
+}
+
+// SetStartItem BBB
+func SetStartItem(u uint) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.StartItem = u
+		}
+	}
+}
+
+// SetMaxCountItem BBB
+func SetMaxCountItem(u uint8) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.MaxCountItem = u
+		}
+	}
+}
+
+// SetDatePublished BBB
+func SetDatePublished(u uint16) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DatePublished = u
+		}
+	}
+}
+
+// SetDateFirstPublished BBB
+func SetDateFirstPublished(u uint16) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DateFirstPublished = u
+		}
+	}
+}
+
+// SetCPEName BBB
+func SetCPEName(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.CPEName = s
+		}
+	}
+}
+
+// SetFormat BBB
+func SetFormat(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.Format = s
+		}
+	}
+}
+
+// SetKeyword BBB
+func SetKeyword(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.Keyword = url.QueryEscape(s)
+		}
+	}
+}
+
+// SetLanguage BBB
+func SetLanguage(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.Language = s
+		}
+	}
+}
+
+// SetVendorID BBB
+func SetVendorID(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.VendorID = s
+		}
+	}
+}
+
+// SetProductID BBB
+func SetProductID(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.ProductID = s
+		}
+	}
+}
+
+// SetVulnID BBB
+func SetVulnID(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.VulnID = s
+		}
+	}
+}
+
+// SetSeverity BBB
+func SetSeverity(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.Severity = s
+		}
+	}
+}
+
+// SetVector BBB
+func SetVector(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.Vector = s
+		}
+	}
+}
+
+// SetRangeDatePublic BBB
+func SetRangeDatePublic(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.RangeDatePublic = s
+		}
+	}
+}
+
+// SetRangeDatePublished BBB
+func SetRangeDatePublished(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.RangeDatePublished = s
+		}
+	}
+}
+
+// SetRangeDateFirstPublished BBB
+func SetRangeDateFirstPublished(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.RangeDateFirstPublished = s
+		}
+	}
+}
+
+// SetDatePublicStartY BBB
+func SetDatePublicStartY(u uint16) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DatePublicStartY = u
+		}
+	}
+}
+
+// SetDatePublicStartM BBB
+func SetDatePublicStartM(u uint8) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DatePublicStartM = u
+		}
+	}
+}
+
+// SetDatePublicStartD BBB
+func SetDatePublicStartD(u uint8) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DatePublicStartD = u
+		}
+	}
+}
+
+// SetDatePublicEndY BBB
+func SetDatePublicEndY(u uint16) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DatePublicEndY = u
+		}
+	}
+}
+
+// SetDatePublicEndM BBB
+func SetDatePublicEndM(u uint8) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DatePublicEndM = u
+		}
+	}
+}
+
+// SetDatePublicEndD BBB
+func SetDatePublicEndD(u uint8) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DatePublicEndD = u
+		}
+	}
+}
+
+// SetDateFirstPublishedStartY BBB
+func SetDateFirstPublishedStartY(u uint16) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DateFirstPublishedStartY = u
+		}
+	}
+}
+
+// SetDateFirstPublishedStartM BBB
+func SetDateFirstPublishedStartM(u uint8) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DateFirstPublishedStartM = u
+		}
+	}
+}
+
+// SetDateFirstPublishedStartD BBB
+func SetDateFirstPublishedStartD(u uint8) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DateFirstPublishedStartD = u
+		}
+	}
+}
+
+// SetDateFirstPublishedEndY BBB
+func SetDateFirstPublishedEndY(u uint16) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DateFirstPublishedEndY = u
+		}
+	}
+}
+
+// SetDateFirstPublishedEndM BBB
+func SetDateFirstPublishedEndM(u uint8) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DateFirstPublishedEndM = u
+		}
+	}
+}
+
+// SetDateFirstPublishedEndD BBB
+func SetDateFirstPublishedEndD(u uint8) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.DateFirstPublishedEndD = u
+		}
+	}
+}
+
+// SetTheme BBB
+func SetTheme(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.Theme = s
+		}
+	}
+}
+
+// SetAggrType BBB
+func SetAggrType(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.AggrType = s
+		}
+	}
+}
+
+// SetCWEID BBB
+func SetCWEID(s string) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.CWEID = s
+		}
+	}
+}
+
+// SetPID BBB
+func SetPID(u uint) Option {
+	return func(p *parameter) {
+		if p != nil {
+			p.PID = u
+		}
+	}
 }
 
 // Status stores the data from API response.
@@ -96,7 +407,7 @@ type Status struct {
 	DateFirstPublishedEndM   uint8  `xml:"dateFirstPublishedEndM,attr"`
 	DateFirstPublishedEndD   uint8  `xml:"dateFirstPublishedEndD,attr"`
 	Theme                    string `xml:"theme,attr"`
-	DataType                 string `xml:"dataType,attr"`
+	AggrType                 string `xml:"type,attr"`
 	CWEID                    string `xml:"cweId,attr"`
 	PID                      uint   `xml:"pid,attr"`
 }

@@ -16,21 +16,19 @@ import (
 
 func main() {
 	var (
-		vendorid = flag.String("vendorid", "", "Vendor ID for listing products")
+		vendorID = flag.String("vendorID", "", "Vendor ID for listing products")
 	)
 	flag.Parse()
-	if *vendorid == "" {
-		fmt.Println("vendorid must be specified.")
+	if *vendorID == "" {
+		fmt.Println("vendorID must be specified.")
 		os.Exit(1)
-	} else if _, err := strconv.Atoi(*vendorid); err != nil {
+	} else if _, err := strconv.Atoi(*vendorID); err != nil {
 		fmt.Printf("Invalid vendor ID: %s\n", err)
 		os.Exit(1)
 	}
 
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{VendorID: *vendorid}
-	p := myjvn.NewParamsGetProductList(params)
-	productList, err := c.GetProductList(context.Background(), p)
+	productList, err := c.GetProductList(context.Background(), myjvn.SetVendorID(*vendorID))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -39,6 +37,10 @@ func main() {
 	fmt.Println("Result of the getProductList command")
 	fmt.Println("---------------------------------------")
 
+	if productList.VendorInfo.Vendors == nil {
+		fmt.Println("No vendors")
+		os.Exit(1)
+	}
 	n := len(productList.VendorInfo.Vendors[0].Products)
 	var s string = strconv.Itoa(n)
 	switch n {

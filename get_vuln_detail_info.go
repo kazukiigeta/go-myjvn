@@ -168,43 +168,19 @@ type VulnDetailInfo struct {
 	Status         Status      `xml:"Status"`
 }
 
-// ParamsGetVulnDetailInfo specifies the parameters of a HTTP request for GetVulnDetailInfo.
-type ParamsGetVulnDetailInfo struct {
-	Method       string `url:"method"`
-	Feed         string `url:"feed"`
-	StartItem    uint   `url:"startItem,omitempty"`
-	MaxCountItem uint8  `url:"maxCountItem,omitempty"`
-	VulnID       string `url:"vulnId"`
-	Language     string `url:"lang,omitempty"`
-}
-
-// NewParamsGetVulnDetailInfo creates an instance of ParamsGetVulnDetailInfo.
-func NewParamsGetVulnDetailInfo(params *Parameter) *ParamsGetVulnDetailInfo {
-	if params == nil {
-		params = &Parameter{}
-	}
-
-	p := &ParamsGetVulnDetailInfo{
+// GetVulnDetailInfo downloads a vendor list.
+// See: https://jvndb.jvn.jp/apis/getVulnDetailInfo_api_hnd.html
+func (c *Client) GetVulnDetailInfo(ctx context.Context, opts ...Option) (*VulnDetailInfo, error) {
+	p := &parameter{
 		Method: "getVulnDetailInfo",
 		Feed:   "hnd",
 	}
 
-	p.StartItem = params.StartItem
-	p.MaxCountItem = params.MaxCountItem
-	p.VulnID = params.VulnID
-	p.Language = params.Language
-
-	return p
-}
-
-// GetVulnDetailInfo downloads a vendor list.
-// See: https://jvndb.jvn.jp/apis/getVulnDetailInfo_api_hnd.html
-func (c *Client) GetVulnDetailInfo(ctx context.Context, params *ParamsGetVulnDetailInfo) (*VulnDetailInfo, error) {
-	if params == nil {
-		params = NewParamsGetVulnDetailInfo(nil)
+	for _, opt := range opts {
+		opt(p)
 	}
 
-	u, err := addOptions(defaultAPIPath, params)
+	u, err := addOptions(defaultAPIPath, p)
 	if err != nil {
 		return nil, err
 	}

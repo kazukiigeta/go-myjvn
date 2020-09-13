@@ -13,9 +13,7 @@ import (
 
 func ExampleClient_GetAlertList() {
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{}
-	p := myjvn.NewParamsGetAlertList(params)
-	alertList, err := c.GetAlertList(context.Background(), p)
+	alertList, err := c.GetAlertList(context.Background(), nil)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -25,9 +23,7 @@ func ExampleClient_GetAlertList() {
 
 func ExampleClient_GetVendorList() {
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{}
-	p := myjvn.NewParamsGetVendorList(params)
-	vendorList, err := c.GetVendorList(context.Background(), p)
+	vendorList, err := c.GetVendorList(context.Background())
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -39,9 +35,7 @@ func ExampleClient_GetVendorList() {
 
 func ExampleClient_GetProductList() {
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{}
-	p := myjvn.NewParamsGetProductList(params)
-	productList, err := c.GetProductList(context.Background(), p)
+	productList, err := c.GetProductList(context.Background())
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -53,9 +47,7 @@ func ExampleClient_GetProductList() {
 
 func ExampleClient_GetVulnOverviewList() {
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{}
-	p := myjvn.NewParamsGetVulnOverviewList(params)
-	vulnOverviewList, err := c.GetVulnOverviewList(context.Background(), p)
+	vulnOverviewList, err := c.GetVulnOverviewList(context.Background())
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -65,11 +57,7 @@ func ExampleClient_GetVulnOverviewList() {
 
 func ExampleClient_GetVulnDetailInfo() {
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{
-		VulnID: "JVNDB-2020-006469",
-	}
-	p := myjvn.NewParamsGetVulnDetailInfo(params)
-	vulnDetailInfo, err := c.GetVulnDetailInfo(context.Background(), p)
+	vulnDetailInfo, err := c.GetVulnDetailInfo(context.Background(), myjvn.SetVulnID("JVNDB-2020-006469"))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -79,16 +67,28 @@ func ExampleClient_GetVulnDetailInfo() {
 
 func ExampleClient_GetStatistics() {
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{
-		Theme:            "sumCvss",
-		CWEID:            "CWE-20",
-		DatePublicStartY: 2015,
+
+	statisticsHND, err := c.GetStatistics(context.Background(),
+		myjvn.SetFeed("hnd"),
+		myjvn.SetTheme("sumCvss"),
+		myjvn.SetCWEID("CWE-20"),
+		myjvn.SetDatePublicStartY(2015),
+	)
+
+	if err != nil {
+		fmt.Println(err)
 	}
-	p := myjvn.NewParamsGetStatisticsHND(params)
-	statisticsHND, err := c.GetStatistics(context.Background(), p)
+
+	statisticsITM, err := c.GetStatistics(context.Background(),
+		myjvn.SetFeed("itm"),
+		myjvn.SetTheme("sumCvss"),
+		myjvn.SetCWEID("CWE-20"),
+		myjvn.SetDatePublicStartY(2015),
+	)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	fmt.Println(statisticsHND.SumCVSS.Titles)
+	fmt.Println(statisticsITM.SumCVSS.Titles)
 }

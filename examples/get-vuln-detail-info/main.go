@@ -17,24 +17,20 @@ import (
 
 func main() {
 	var (
-		vulnid = flag.String("vulnid", "", "vulnID for vulnDetailInfo search")
+		vulnID = flag.String("vulnID", "", "vulnID for vulnDetailInfo search")
 	)
 	flag.Parse()
 
-	if *vulnid == "" {
-		fmt.Println("vulnid must be specified.")
+	if *vulnID == "" {
+		fmt.Println("vulnID must be specified.")
 		os.Exit(1)
-	} else if !strings.HasPrefix(*vulnid, "JVNDB") {
+	} else if !strings.HasPrefix(*vulnID, "JVNDB") {
 		fmt.Println("Invalid vulnID: vulnID must start with JVNDB")
 		os.Exit(1)
 	}
 
 	c := myjvn.NewClient(nil)
-	params := &myjvn.Parameter{
-		VulnID: *vulnid,
-	}
-	p := myjvn.NewParamsGetVulnDetailInfo(params)
-	vulnDetailInfo, err := c.GetVulnDetailInfo(context.Background(), p)
+	vulnDetailInfo, err := c.GetVulnDetailInfo(context.Background(), myjvn.SetVulnID(*vulnID))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -58,7 +54,9 @@ func main() {
 	fmt.Printf("%s\n\n", s)
 	fmt.Printf("Here is the results.\n\n")
 	for _, v := range vulnDetailInfo.VulInfo.VulInfoData.Affected.AffectedItem {
-		fmt.Printf("%v\n", v.ProductName)
+		fmt.Printf("ProductName: %v\n", v.ProductName)
+		fmt.Printf("Version: %v\n", v.VersionNum)
+		fmt.Printf("CPE: %v\n", v.CPE)
 	}
 	fmt.Println("---------------------------------------")
 }
