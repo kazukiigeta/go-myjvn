@@ -45,6 +45,7 @@ func main() {
 		fmt.Println("no items")
 		os.Exit(1)
 	}
+
 	n := len(vulnOverviewList.Items)
 	var s string = strconv.Itoa(n)
 	switch n {

@@ -41,6 +41,7 @@ func main() {
 		myjvn.SetCWEID(*cweID),
 		myjvn.SetDatePublicStartY(uint16(*datePublicStartY)),
 	)
+
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -74,6 +74,7 @@ func ExampleClient_GetStatistics() {
 		myjvn.SetCWEID("CWE-20"),
 		myjvn.SetDatePublicStartY(2015),
 	)
+
 	if err != nil {
 		fmt.Println(err)
 	}
