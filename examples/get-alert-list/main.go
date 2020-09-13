@@ -13,8 +13,9 @@ import (
 
 func main() {
 	c := myjvn.NewClient(nil)
-
-	alertList, err := c.GetAlertList(context.Background())
+	params := &myjvn.Parameter{}
+	p := myjvn.NewParamsGetAlertList(params)
+	alertList, err := c.GetAlertList(context.Background(), p)
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -7,6 +7,7 @@ package myjvn
 import (
 	"context"
 	"encoding/xml"
+	"net/url"
 )
 
 // PLProduct stores the data from API response.
@@ -47,20 +48,49 @@ type ProductList struct {
 	Status         Status       `xml:"Status"`
 }
 
-// GetProductList downloads a product list.
-// See: https://jvndb.jvn.jp/apis/getProductList_api_hnd.html
-func (c *Client) GetProductList(ctx context.Context, opts ...Option) (*ProductList, error) {
-	p := &parameter{
+// ParamsGetProductList specifies the parameters of a HTTP request for GetProductList.
+type ParamsGetProductList struct {
+	Method       string `url:"method"`
+	Feed         string `url:"feed"`
+	StartItem    uint   `url:"startItem,omitempty"`
+	MaxCountItem uint8  `url:"maxCountItem,omitempty"`
+	CPEName      string `url:"cpeName,omitempty"`
+	VendorID     string `url:"vendorId,omitempty"`
+	ProductID    string `url:"productId,omitempty"`
+	Keyword      string `url:"keyword,omitempty"`
+	Language     string `url:"lang,omitempty"`
+}
 
+// NewParamsGetProductList creates an instance of ParamsGetProductList.
+func NewParamsGetProductList(params *Parameter) *ParamsGetProductList {
+	if params == nil {
+		params = &Parameter{}
+	}
+
+	p := &ParamsGetProductList{
 		Method: "getProductList",
 		Feed:   "hnd",
 	}
 
-	for _, opt := range opts {
-		opt(p)
+	p.StartItem = params.StartItem
+	p.MaxCountItem = params.MaxCountItem
+	p.CPEName = params.CPEName
+	p.VendorID = params.VendorID
+	p.ProductID = params.ProductID
+	p.Keyword = url.QueryEscape(params.Keyword)
+	p.Language = params.Language
+
+	return p
+}
+
+// GetProductList downloads a product list.
+// See: https://jvndb.jvn.jp/apis/getProductList_api_hnd.html
+func (c *Client) GetProductList(ctx context.Context, params *ParamsGetProductList) (*ProductList, error) {
+	if params == nil {
+		params = NewParamsGetProductList(nil)
 	}
 
-	u, err := addOptions(defaultAPIPath, p)
+	u, err := addOptions(defaultAPIPath, params)
 	if err != nil {
 		return nil, err
 	}

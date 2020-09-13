@@ -21,18 +21,15 @@ func main() {
 	)
 	flag.Parse()
 
-	if *keyword == "" {
-		fmt.Println("keyword must be specified")
-		os.Exit(1)
-	}
-
 	c := myjvn.NewClient(nil)
-	vulnOverviewList, err := c.GetVulnOverviewList(context.Background(),
-		myjvn.SetKeyword(url.QueryEscape(*keyword)),
-		myjvn.SetRangeDatePublic("n"),
-		myjvn.SetRangeDatePublished("n"),
-		myjvn.SetRangeDateFirstPublished("n"),
-	)
+	params := &myjvn.Parameter{
+		Keyword:                 url.QueryEscape(*keyword),
+		RangeDatePublic:         "n",
+		RangeDatePublished:      "n",
+		RangeDateFirstPublished: "n",
+	}
+	p := myjvn.NewParamsGetVulnOverviewList(params)
+	vulnOverviewList, err := c.GetVulnOverviewList(context.Background(), p)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -40,11 +37,6 @@ func main() {
 	fmt.Println("------------------------------------------")
 	fmt.Println("Result of the getVulnOverviewList command")
 	fmt.Println("------------------------------------------")
-
-	if vulnOverviewList == nil {
-		fmt.Println("no items")
-		os.Exit(1)
-	}
 
 	n := len(vulnOverviewList.Items)
 	var s string = strconv.Itoa(n)

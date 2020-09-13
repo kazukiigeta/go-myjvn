@@ -35,13 +35,13 @@ func main() {
 	}
 
 	c := myjvn.NewClient(nil)
-	statisticsHND, err := c.GetStatistics(context.Background(),
-		myjvn.SetFeed("hnd"),
-		myjvn.SetTheme(*theme),
-		myjvn.SetCWEID(*cweID),
-		myjvn.SetDatePublicStartY(uint16(*datePublicStartY)),
-	)
-
+	params := &myjvn.Parameter{
+		Theme:            *theme,
+		CWEID:            *cweID,
+		DatePublicStartY: uint16(*datePublicStartY),
+	}
+	p := myjvn.NewParamsGetStatisticsHND(params)
+	statisticsHND, err := c.GetStatistics(context.Background(), p)
 	if err != nil {
 		fmt.Println(err)
 	}

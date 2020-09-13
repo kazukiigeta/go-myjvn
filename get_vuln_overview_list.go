@@ -7,6 +7,7 @@ package myjvn
 import (
 	"context"
 	"encoding/xml"
+	"net/url"
 )
 
 // VOLMarkingStruct stores the data from API response.
@@ -126,19 +127,83 @@ type VulnOverviewList struct {
 	Status         Status     `xml:"Status"`
 }
 
-// GetVulnOverviewList downloads a product list.
-// See: https://jvndb.jvn.jp/apis/getVulnOverviewList_api_hnd.html
-func (c *Client) GetVulnOverviewList(ctx context.Context, opts ...Option) (*VulnOverviewList, error) {
-	p := &parameter{
+// ParamsGetVulnOverviewList specifies the parameters of a HTTP request for GetVulnOverviewList.
+type ParamsGetVulnOverviewList struct {
+	Method                   string `url:"method"`
+	Feed                     string `url:"feed"`
+	StartItem                uint   `url:"startItem,omitempty"`
+	MaxCountItem             uint8  `url:"maxCountItem,omitempty"`
+	CPEName                  string `url:"cpeName,omitempty"`
+	VendorID                 string `url:"vendorId,omitempty"`
+	ProductID                string `url:"productId,omitempty"`
+	Keyword                  string `url:"keyword,omitempty"`
+	Severity                 string `url:"severity,omitempty"`
+	Vector                   string `url:"vector,omitempty"`
+	RangeDatePublic          string `url:"rangeDatePublic,omitempty"`
+	RangeDatePublished       string `url:"rangeDatePublished,omitempty"`
+	RangeDateFirstPublished  string `url:"rangeDateFirstPublished,omitempty"`
+	DatePublicStartY         uint16 `xml:"datePublicStartY,omitempty"`
+	DatePublicStartM         uint8  `xml:"datePublicStartM,omitempty"`
+	DatePublicStartD         uint8  `xml:"datePublicStartD,omitempty"`
+	DatePublicEndY           uint16 `xml:"datePublicEndY,omitempty"`
+	DatePublicEndM           uint8  `xml:"datePublicEndM,omitempty"`
+	DatePublicEndD           uint8  `xml:"datePublicEndD,omitempty"`
+	DateFirstPublishedStartY uint16 `xml:"dateFirstPublishedStartY,omitempty"`
+	DateFirstPublishedStartM uint8  `xml:"dateFirstPublishedStartM,omitempty"`
+	DateFirstPublishedStartD uint8  `xml:"dateFirstPublishedStartD,omitempty"`
+	DateFirstPublishedEndY   uint16 `xml:"dateFirstPublishedEndY,omitempty"`
+	DateFirstPublishedEndM   uint8  `xml:"dateFirstPublishedEndM,omitempty"`
+	DateFirstPublishedEndD   uint8  `xml:"dateFirstPublishedEndD,omitempty"`
+	Language                 string `url:"lang,omitempty"`
+}
+
+// NewParamsGetVulnOverviewList creates an instance of ParamsGetVulnOverviewList.
+func NewParamsGetVulnOverviewList(params *Parameter) *ParamsGetVulnOverviewList {
+	if params == nil {
+		params = &Parameter{}
+	}
+
+	p := &ParamsGetVulnOverviewList{
 		Method: "getVulnOverviewList",
 		Feed:   "hnd",
 	}
 
-	for _, opt := range opts {
-		opt(p)
+	p.StartItem = params.StartItem
+	p.MaxCountItem = params.MaxCountItem
+	p.CPEName = params.CPEName
+	p.VendorID = params.VendorID
+	p.ProductID = params.ProductID
+	p.Keyword = url.QueryEscape(params.Keyword)
+	p.Severity = params.Severity
+	p.Vector = params.Vector
+	p.RangeDatePublic = params.RangeDatePublic
+	p.RangeDatePublished = params.RangeDatePublished
+	p.RangeDateFirstPublished = params.RangeDateFirstPublished
+	p.DatePublicStartY = params.DatePublicStartY
+	p.DatePublicStartM = params.DatePublicStartM
+	p.DatePublicStartD = params.DatePublicStartD
+	p.DatePublicEndY = params.DatePublicEndY
+	p.DatePublicEndM = params.DatePublicEndM
+	p.DatePublicEndD = params.DatePublicEndD
+	p.DateFirstPublishedStartY = params.DateFirstPublishedStartY
+	p.DateFirstPublishedStartM = params.DateFirstPublishedStartM
+	p.DateFirstPublishedStartD = params.DateFirstPublishedStartD
+	p.DateFirstPublishedEndY = params.DateFirstPublishedEndY
+	p.DateFirstPublishedEndM = params.DateFirstPublishedEndM
+	p.DateFirstPublishedEndD = params.DateFirstPublishedEndD
+	p.Language = params.Language
+
+	return p
+}
+
+// GetVulnOverviewList downloads a product list.
+// See: https://jvndb.jvn.jp/apis/getVulnOverviewList_api_hnd.html
+func (c *Client) GetVulnOverviewList(ctx context.Context, params *ParamsGetVulnOverviewList) (*VulnOverviewList, error) {
+	if params == nil {
+		params = NewParamsGetVulnOverviewList(nil)
 	}
 
-	u, err := addOptions(defaultAPIPath, p)
+	u, err := addOptions(defaultAPIPath, params)
 	if err != nil {
 		return nil, err
 	}

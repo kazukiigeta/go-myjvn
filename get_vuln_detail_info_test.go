@@ -14,6 +14,35 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
+func TestNewParamsGetVulnDetailInfo(t *testing.T) {
+	var startItem uint = 10
+	var maxCountItem uint8 = 3
+	var vulnID string = "JVNDB-2020-000001"
+	var language string = "en"
+
+	params := &Parameter{
+		StartItem:    startItem,
+		MaxCountItem: maxCountItem,
+		VulnID:       vulnID,
+		Language:     language,
+	}
+
+	got := NewParamsGetVulnDetailInfo(params)
+
+	want := &ParamsGetVulnDetailInfo{
+		Method:       "getVulnDetailInfo",
+		Feed:         "hnd",
+		StartItem:    startItem,
+		MaxCountItem: maxCountItem,
+		VulnID:       vulnID,
+		Language:     language,
+	}
+
+	if diff := cmp.Diff(got, want); diff != "" {
+		t.Errorf("differs: (-want +got)\n%s", diff)
+	}
+}
+
 func TestGetVulnDetailInfo(t *testing.T) {
 	var expectedHTTPResp = `<VULDEF-Document version="3.2" xsi:schemaLocation="http://jvn.jp/vuldef/ https://jvndb.jvn.jp/schema/vuldef_3.2.xsd http://jvn.jp/rss/mod_sec/3.0/ https://jvndb.jvn.jp/schema/mod_sec_3.0.xsd http://data-marking.mitre.org/extensions/MarkingStructure#TLP-1 https://jvndb.jvn.jp/schema/tlp_marking.xsd http://jvndb.jvn.jp/myjvn/Status https://jvndb.jvn.jp/schema/status_3.3.xsd" xml:lang="ja"><Vulinfo><VulinfoID>JVNDB-2020-006469</VulinfoID><VulinfoData><Title>三菱電機製 GOT2000 シリーズの TCP/IP 機能における複数の脆弱性</Title><VulinfoDescription><Overview>三菱電機株式会社が提供する GOT2000 シリーズの GT27、GT25、GT23 のファームウェアに組込まれている TCP/IP 機能には、次の複数の脆弱性が存在します。 * バッファエラー (CWE-119) - CVE-2020-5595 * セッションの固定化 (CWE-384) - CVE-2020-5596 * NULL ポインタデリファレンス (CWE-476) - CVE-2020-5597 * 不適切なアクセス制御 (CWE-284) - CVE-2020-5598 * 引数の挿入または変更 (CWE-88) - CVE-2020-5599 * リソース管理の問題 (CWE-399) - CVE-2020-5600</Overview></VulinfoDescription><Affected><AffectedItem><Name>三菱電機</Name><ProductName>GT23 モデル</ProductName><Cpe version="2.2">cpe:/o:mitsubishielectric:gt23_model</Cpe><VersionNumber/></AffectedItem><AffectedItem><Name>三菱電機</Name><ProductName>GT25 モデル</ProductName><Cpe version="2.2">cpe:/o:mitsubishielectric:gt25_model</Cpe><VersionNumber/></AffectedItem><AffectedItem><Name>三菱電機</Name><ProductName>GT27 モデル</ProductName><Cpe version="2.2">cpe:/o:mitsubishielectric:gt27_model</Cpe><VersionNumber/></AffectedItem></Affected><Impact><Cvss version="3.0"><Severity type="Base">Critical</Severity><Base>9.8</Base><Vector>CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H</Vector></Cvss><ImpactItem><Description>第三者によって細工されたパケットを受信することで、製品のネットワーク機能が停止したり悪意あるプログラムが実行されたりする可能性があります。</Description></ImpactItem></Impact><Solution><SolutionItem><Description>[アップデートする] 開発者が提供する次の手順に従って、CoreOS を最新版にアップデートしてください。 1.MELSOFT GT Designer3(2000) 1.240A 以降のバージョンを、三菱電機FAサイトのソフトウェアダウンロードコーナーよりダウンロードしインストールする 2.MELSOFT GT Designer3(2000) を起動し、バージョン Z 以降の CoreOS を SD カードに作成する 3.SD カードを対象製品に挿入し、CoreOS を最新バージョンへアップデートする [ワークアラウンドを実施する] 信頼できないネットワークやホストからのアクセスを制限することで、本脆弱性の影響を軽減できます。 詳しくは、開発者が提供する情報をご確認ください。</Description></SolutionItem></Solution><Related><RelatedItem type="vendor"><Name>三菱電機株式会社</Name><VulinfoID>GOT2000シリーズにおけるTCP/IPスタックの複数の脆弱性</VulinfoID><URL>https://www.mitsubishielectric.co.jp/psirt/vulnerability/pdf/2020-005.pdf</URL></RelatedItem><RelatedItem type="advisory"><Name>Common Vulnerabilities and Exposures (CVE)</Name><VulinfoID>CVE-2020-5595</VulinfoID><URL>https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-5595</URL></RelatedItem></Related><History><HistoryItem><HistoryNo>1</HistoryNo><DateTime>2020-07-09T14:43:53+09:00</DateTime><Description>[2020年07月09日]\n 掲載</Description></HistoryItem></History><DateFirstPublished>2020-07-09T14:43:53+09:00</DateFirstPublished><DateLastUpdated>2020-07-09T14:43:53+09:00</DateLastUpdated><DatePublic>2020-07-03T00:00:00+09:00</DatePublic></VulinfoData></Vulinfo><sec:handling><marking:Marking><marking:Marking_Structure xsi:type="tlpMarking:TLPMarkingStructureType" marking_model_name="TLP" marking_model_ref="http://www.us-cert.gov/tlp/" color="WHITE"/></marking:Marking></sec:handling><status:Status version="3.3" method="getVulnDetailInfo" lang="ja" retCd="0" retMax="10" errCd="errcd" errMsg="errmsg" totalRes="1" totalResRet="1" firstRes="1" feed="hnd" vulnId="JVNDB-2020-006469"/></VULDEF-Document>`
 
@@ -183,7 +212,10 @@ func TestGetVulnDetailInfo(t *testing.T) {
 				fmt.Fprint(w, c.httpResp)
 			})
 
-			vendorList, err := client.GetVulnDetailInfo(context.Background(), SetFormat(c.respFormat))
+			params := &Parameter{Format: c.respFormat}
+			p := NewParamsGetVulnDetailInfo(params)
+
+			vendorList, err := client.GetVulnDetailInfo(context.Background(), p)
 			if err != nil {
 				t.Fatalf("GetVulnDetailInfo returned error: %v", err)
 			}

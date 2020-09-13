@@ -7,6 +7,7 @@ package myjvn
 import (
 	"context"
 	"encoding/xml"
+	"net/url"
 )
 
 // VLVendor stores the data from API response.
@@ -38,20 +39,47 @@ type VendorList struct {
 	Status         Status       `xml:"Status"`
 }
 
-// GetVendorList downloads a vendor list.
-// See: https://jvndb.jvn.jp/apis/getVendorList_api_hnd.html
-func (c *Client) GetVendorList(ctx context.Context, opts ...Option) (*VendorList, error) {
-	p := &parameter{
+// ParamsGetVendorList specifies the parameters of a HTTP request for GetVendorList.
+type ParamsGetVendorList struct {
+	Method       string `url:"method"`
+	Feed         string `url:"feed"`
+	StartItem    uint   `url:"startItem,omitempty"`
+	MaxCountItem uint8  `url:"maxCountItem,omitempty"`
+	CPEName      string `url:"cpeName,omitempty"`
+	VendorID     string `url:"vendorId,omitempty"`
+	ProductID    string `url:"productId,omitempty"`
+	Keyword      string `url:"keyword,omitempty"`
+	Language     string `url:"lang,omitempty"`
+}
 
+// NewParamsGetVendorList creates an instance of ParamsGetVendorList.
+func NewParamsGetVendorList(params *Parameter) *ParamsGetVendorList {
+	if params == nil {
+		params = &Parameter{}
+	}
+
+	p := &ParamsGetVendorList{
 		Method: "getVendorList",
 		Feed:   "hnd",
 	}
 
-	for _, opt := range opts {
-		opt(p)
+	p.StartItem = params.StartItem
+	p.MaxCountItem = params.MaxCountItem
+	p.CPEName = params.CPEName
+	p.Keyword = url.QueryEscape(params.Keyword)
+	p.Language = params.Language
+
+	return p
+}
+
+// GetVendorList downloads a vendor list.
+// See: https://jvndb.jvn.jp/apis/getVendorList_api_hnd.html
+func (c *Client) GetVendorList(ctx context.Context, params *ParamsGetVendorList) (*VendorList, error) {
+	if params == nil {
+		params = NewParamsGetVendorList(nil)
 	}
 
-	u, err := addOptions(defaultAPIPath, p)
+	u, err := addOptions(defaultAPIPath, params)
 	if err != nil {
 		return nil, err
 	}

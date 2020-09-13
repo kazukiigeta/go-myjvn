@@ -108,23 +108,51 @@ type AlertList struct {
 	Status         Status     `xml:"Status"`
 }
 
-// GetAlertList downloads an alert list.
-// See: https://jvndb.jvn.jp/apis/getAlertList_api_hnd.html
-func (c *Client) GetAlertList(ctx context.Context, opts ...Option) (*AlertList, error) {
-	p := &parameter{
+// ParamsGetAlertList specifies the parameters of a HTTP request for GetAlertList.
+type ParamsGetAlertList struct {
+	Method             string `url:"method"`
+	Feed               string `url:"feed"`
+	StartItem          uint   `url:"startItem,omitempty"`
+	MaxCountItem       uint8  `url:"maxCountItem,omitempty"`
+	DatePublished      uint16 `url:"datePublished,omitempty"`
+	DateFirstPublished uint16 `url:"dateFirstPublished,omitempty"`
+	CPEName            string `url:"cpeName,omitempty"`
+	Format             string `url:"ft,omitempty"`
+}
+
+// NewParamsGetAlertList creates an instance of ParamsGetAlertList.
+func NewParamsGetAlertList(params *Parameter) *ParamsGetAlertList {
+	if params == nil {
+		params = &Parameter{}
+	}
+
+	p := &ParamsGetAlertList{
 		Method: "getAlertList",
 		Feed:   "hnd",
 	}
 
-	for _, opt := range opts {
-		opt(p)
+	p.StartItem = params.StartItem
+	p.MaxCountItem = params.MaxCountItem
+	p.DatePublished = params.DatePublished
+	p.DateFirstPublished = params.DateFirstPublished
+	p.CPEName = params.CPEName
+	p.Format = params.Format
+
+	return p
+}
+
+// GetAlertList downloads an alert list.
+// See: https://jvndb.jvn.jp/apis/getAlertList_api_hnd.html
+func (c *Client) GetAlertList(
+	ctx context.Context, params *ParamsGetAlertList) (*AlertList, error) {
+	if params == nil {
+		params = NewParamsGetAlertList(nil)
 	}
 
-	u, err := addOptions(defaultAPIPath, p)
+	u, err := addOptions(defaultAPIPath, params)
 	if err != nil {
 		return nil, err
 	}
-
 	req, err := c.newRequest("GET", u)
 	if err != nil {
 		return nil, err
