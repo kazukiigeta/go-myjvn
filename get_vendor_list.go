@@ -42,7 +42,6 @@ type VendorList struct {
 // See: https://jvndb.jvn.jp/apis/getVendorList_api_hnd.html
 func (c *Client) GetVendorList(ctx context.Context, opts ...Option) (*VendorList, error) {
 	p := &parameter{
-
 		Method: "getVendorList",
 		Feed:   "hnd",
 	}

@@ -56,10 +56,10 @@ type parameter struct {
 	PID                      uint   `url:"pid,omitempty"`
 }
 
-// Option AAA
+// Option represents a function of which a parameter is REST API parameter.
 type Option func(p *parameter)
 
-// SetMethod BBB
+// SetMethod returns Option which sets Method as REST API parameter.
 func SetMethod(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -68,7 +68,7 @@ func SetMethod(s string) Option {
 	}
 }
 
-// SetFeed BBB
+// SetFeed returns Option which sets Feed as REST API parameter.
 func SetFeed(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -77,7 +77,7 @@ func SetFeed(s string) Option {
 	}
 }
 
-// SetStartItem BBB
+// SetStartItem returns Option which sets StartItem as REST API parameter.
 func SetStartItem(u uint) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -86,7 +86,7 @@ func SetStartItem(u uint) Option {
 	}
 }
 
-// SetMaxCountItem BBB
+// SetMaxCountItem returns Option which sets MaxCountItem as REST API parameter.
 func SetMaxCountItem(u uint8) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -95,7 +95,7 @@ func SetMaxCountItem(u uint8) Option {
 	}
 }
 
-// SetDatePublished BBB
+// SetDatePublished returns Option which sets DatePublished as REST API parameter.
 func SetDatePublished(u uint16) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -104,7 +104,7 @@ func SetDatePublished(u uint16) Option {
 	}
 }
 
-// SetDateFirstPublished BBB
+// SetDateFirstPublished returns Option which sets DateFirstPublished as REST API parameter.
 func SetDateFirstPublished(u uint16) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -113,7 +113,7 @@ func SetDateFirstPublished(u uint16) Option {
 	}
 }
 
-// SetCPEName BBB
+// SetCPEName returns Option which sets CPEName as REST API parameter.
 func SetCPEName(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -122,7 +122,7 @@ func SetCPEName(s string) Option {
 	}
 }
 
-// SetFormat BBB
+// SetFormat returns Option which sets Format as REST API parameter.
 func SetFormat(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -131,7 +131,7 @@ func SetFormat(s string) Option {
 	}
 }
 
-// SetKeyword BBB
+// SetKeyword returns Option which sets Keyword as REST API parameter.
 func SetKeyword(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -140,7 +140,7 @@ func SetKeyword(s string) Option {
 	}
 }
 
-// SetLanguage BBB
+// SetLanguage returns Option which sets Language as REST API parameter.
 func SetLanguage(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -149,7 +149,7 @@ func SetLanguage(s string) Option {
 	}
 }
 
-// SetVendorID BBB
+// SetVendorID returns Option which sets VendorID as REST API parameter.
 func SetVendorID(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -158,7 +158,7 @@ func SetVendorID(s string) Option {
 	}
 }
 
-// SetProductID BBB
+// SetProductID returns Option which sets ProductID as REST API parameter.
 func SetProductID(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -167,7 +167,7 @@ func SetProductID(s string) Option {
 	}
 }
 
-// SetVulnID BBB
+// SetVulnID returns Option which sets VulnID as REST API parameter.
 func SetVulnID(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -176,7 +176,7 @@ func SetVulnID(s string) Option {
 	}
 }
 
-// SetSeverity BBB
+// SetSeverity returns Option which sets Severity as REST API parameter.
 func SetSeverity(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -185,7 +185,7 @@ func SetSeverity(s string) Option {
 	}
 }
 
-// SetVector BBB
+// SetVector returns Option which sets Vector as REST API parameter.
 func SetVector(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -194,7 +194,7 @@ func SetVector(s string) Option {
 	}
 }
 
-// SetRangeDatePublic BBB
+// SetRangeDatePublic returns Option which sets RangeDatePublic as REST API parameter.
 func SetRangeDatePublic(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -203,7 +203,7 @@ func SetRangeDatePublic(s string) Option {
 	}
 }
 
-// SetRangeDatePublished BBB
+// SetRangeDatePublished returns Option which sets RangeDatePublished as REST API parameter.
 func SetRangeDatePublished(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -212,7 +212,7 @@ func SetRangeDatePublished(s string) Option {
 	}
 }
 
-// SetRangeDateFirstPublished BBB
+// SetRangeDateFirstPublished returns Option which sets RangeDateFirstPublished as REST API parameter.
 func SetRangeDateFirstPublished(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -221,7 +221,7 @@ func SetRangeDateFirstPublished(s string) Option {
 	}
 }
 
-// SetDatePublicStartY BBB
+// SetDatePublicStartY returns Option which sets DatePublicStartY as REST API parameter.
 func SetDatePublicStartY(u uint16) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -230,7 +230,7 @@ func SetDatePublicStartY(u uint16) Option {
 	}
 }
 
-// SetDatePublicStartM BBB
+// SetDatePublicStartM returns Option which sets DatePublicStartM as REST API parameter.
 func SetDatePublicStartM(u uint8) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -239,7 +239,7 @@ func SetDatePublicStartM(u uint8) Option {
 	}
 }
 
-// SetDatePublicStartD BBB
+// SetDatePublicStartD returns Option which sets DatePublicStartD as REST API parameter.
 func SetDatePublicStartD(u uint8) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -248,7 +248,7 @@ func SetDatePublicStartD(u uint8) Option {
 	}
 }
 
-// SetDatePublicEndY BBB
+// SetDatePublicEndY returns Option which sets DatePublicEndY as REST API parameter.
 func SetDatePublicEndY(u uint16) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -257,7 +257,7 @@ func SetDatePublicEndY(u uint16) Option {
 	}
 }
 
-// SetDatePublicEndM BBB
+// SetDatePublicEndM returns Option which sets DatePublicEndM as REST API parameter.
 func SetDatePublicEndM(u uint8) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -266,7 +266,7 @@ func SetDatePublicEndM(u uint8) Option {
 	}
 }
 
-// SetDatePublicEndD BBB
+// SetDatePublicEndD returns Option which sets DatePublicEndD as REST API parameter.
 func SetDatePublicEndD(u uint8) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -275,7 +275,7 @@ func SetDatePublicEndD(u uint8) Option {
 	}
 }
 
-// SetDateFirstPublishedStartY BBB
+// SetDateFirstPublishedStartY returns Option which sets DatePublishedStartY as REST API parameter.
 func SetDateFirstPublishedStartY(u uint16) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -284,7 +284,7 @@ func SetDateFirstPublishedStartY(u uint16) Option {
 	}
 }
 
-// SetDateFirstPublishedStartM BBB
+// SetDateFirstPublishedStartM returns Option which sets DatePublishedStartM as REST API parameter.
 func SetDateFirstPublishedStartM(u uint8) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -293,7 +293,7 @@ func SetDateFirstPublishedStartM(u uint8) Option {
 	}
 }
 
-// SetDateFirstPublishedStartD BBB
+// SetDateFirstPublishedStartD returns Option which sets DatePublishedStartD as REST API parameter.
 func SetDateFirstPublishedStartD(u uint8) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -302,7 +302,7 @@ func SetDateFirstPublishedStartD(u uint8) Option {
 	}
 }
 
-// SetDateFirstPublishedEndY BBB
+// SetDateFirstPublishedEndY returns Option which sets DatePublishedEndY as REST API parameter.
 func SetDateFirstPublishedEndY(u uint16) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -311,7 +311,7 @@ func SetDateFirstPublishedEndY(u uint16) Option {
 	}
 }
 
-// SetDateFirstPublishedEndM BBB
+// SetDateFirstPublishedEndM returns Option which sets DatePublishedEndM as REST API parameter.
 func SetDateFirstPublishedEndM(u uint8) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -320,7 +320,7 @@ func SetDateFirstPublishedEndM(u uint8) Option {
 	}
 }
 
-// SetDateFirstPublishedEndD BBB
+// SetDateFirstPublishedEndD returns Option which sets DatePublishedEndD as REST API parameter.
 func SetDateFirstPublishedEndD(u uint8) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -329,7 +329,7 @@ func SetDateFirstPublishedEndD(u uint8) Option {
 	}
 }
 
-// SetTheme BBB
+// SetTheme returns Option which sets Theme as REST API parameter.
 func SetTheme(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -338,7 +338,7 @@ func SetTheme(s string) Option {
 	}
 }
 
-// SetAggrType BBB
+// SetAggrType returns Option which sets AggrType as REST API parameter.
 func SetAggrType(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -347,7 +347,7 @@ func SetAggrType(s string) Option {
 	}
 }
 
-// SetCWEID BBB
+// SetCWEID returns Option which sets CWEID as REST API parameter.
 func SetCWEID(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
@@ -356,7 +356,7 @@ func SetCWEID(s string) Option {
 	}
 }
 
-// SetPID BBB
+// SetPID returns Option which sets PID as REST API parameter.
 func SetPID(u uint) Option {
 	return func(p *parameter) {
 		if p != nil {
