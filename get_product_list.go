@@ -51,7 +51,6 @@ type ProductList struct {
 // See: https://jvndb.jvn.jp/apis/getProductList_api_hnd.html
 func (c *Client) GetProductList(ctx context.Context, opts ...Option) (*ProductList, error) {
 	p := &parameter{
-
 		Method: "getProductList",
 		Feed:   "hnd",
 	}
