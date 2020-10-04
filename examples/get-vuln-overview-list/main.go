@@ -8,7 +8,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"net/url"
 	"os"
 	"strconv"
 
@@ -28,7 +27,7 @@ func main() {
 
 	c := myjvn.NewClient(nil)
 	vulnOverviewList, err := c.GetVulnOverviewList(context.Background(),
-		myjvn.SetKeyword(url.QueryEscape(*keyword)),
+		myjvn.SetKeyword(*keyword),
 		myjvn.SetRangeDatePublic("n"),
 		myjvn.SetRangeDatePublished("n"),
 		myjvn.SetRangeDateFirstPublished("n"),

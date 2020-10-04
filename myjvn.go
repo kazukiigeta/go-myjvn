@@ -135,7 +135,7 @@ func SetFormat(s string) Option {
 func SetKeyword(s string) Option {
 	return func(p *parameter) {
 		if p != nil {
-			p.Keyword = url.QueryEscape(s)
+			p.Keyword = s
 		}
 	}
 }
