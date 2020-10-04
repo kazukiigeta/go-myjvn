@@ -124,9 +124,9 @@ func TestSetFunc(t *testing.T) {
 		},
 		{
 			description: "SetKeyword",
-			setFunc:     SetKeyword("android"),
+			setFunc:     SetKeyword("スマートフォン"),
 			before:      &parameter{},
-			after:       &parameter{Keyword: "android"},
+			after:       &parameter{Keyword: "スマートフォン"},
 		},
 		{
 			description: "SetKeyword without parameter",
