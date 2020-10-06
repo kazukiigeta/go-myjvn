@@ -453,6 +453,35 @@ func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown fun
 	return client, mux, server.URL, server.Close
 }
 
+func TestIsErrorReplayable(t *testing.T) {
+	type testCase struct {
+		description  string
+		status       int
+		expectedbool bool
+	}
+	var testcases = []testCase{
+		{
+			description:  "404 Not Found",
+			status:       http.StatusNotFound,
+			expectedbool: false,
+		},
+		{
+			description:  "500 Internal Server Error",
+			status:       http.StatusInternalServerError,
+			expectedbool: true,
+		},
+	}
+
+	for _, c := range testcases {
+		t.Run(c.description, func(t *testing.T) {
+
+			if want, got := c.expectedbool, IsErrorRetryable(&http.Response{StatusCode: c.status}); want != got {
+				t.Errorf("not expected result;\nwant == %v, got==%v\n", want, got)
+			}
+		})
+	}
+}
+
 func TestDo(t *testing.T) {
 	type sampleStruct struct {
 		A string `json:"a"`

@@ -8,6 +8,7 @@ import (
 	"context"
 	"encoding/json"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -15,6 +16,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/cenkalti/backoff"
 	"github.com/google/go-querystring/query"
 )
 
@@ -457,8 +459,33 @@ func (c *Client) newRequest(method, path string) (*http.Request, error) {
 	return req, nil
 }
 
+// IsErrorRetryable shows HTTP response error is retryable or not.
+func IsErrorRetryable(resp *http.Response) bool {
+	return resp.StatusCode >= http.StatusInternalServerError
+}
+
 var strJSON string = "json"
 var strXML string = "xml"
+
+// DoWithRetry execute do with retry functionality.
+func (c *Client) DoWithRetry(req *http.Request) (*http.Response, error) {
+	maxRetryNumber := uint64(7)
+	var resp *http.Response
+	var err error
+
+	operationWithRetry := func() error {
+		resp, err = c.httpClient.Do(req)
+		if err == nil && IsErrorRetryable(resp) {
+			err = errors.New("retryable")
+		}
+		return err
+	}
+
+	bo := backoff.WithMaxRetries(backoff.NewExponentialBackOff(), maxRetryNumber)
+	err = backoff.Retry(operationWithRetry, bo)
+
+	return resp, err
+}
 
 // do decodes HTTP response to store the data into the struct given as v.
 func (c *Client) do(ctx context.Context, req *http.Request, format *string, v interface{}) error {
@@ -468,7 +495,8 @@ func (c *Client) do(ctx context.Context, req *http.Request, format *string, v in
 
 	req = req.WithContext(ctx)
 
-	resp, err := c.httpClient.Do(req)
+	// resp, err := c.httpClient.Do(req)
+	resp, err := c.DoWithRetry(req)
 	if err != nil {
 		return err
 	}
